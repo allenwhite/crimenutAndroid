@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Vigilante OSU</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="contactAuth">Contact the authorities!</string>
+    <string name="reportIncident">Report an incident</string>
+    <string name="signup">Signup</string>
+    <string name="login">Log In</string>
+    <string name="password">Enter Password</string>
+    <string name="username">Enter Username</string>
+    <string name="newReportHeader">New Report</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
+
+    <string name="newreport">Is this crime currently happening?</string>
+    <string name="viewincident">OMG I slipped and fell</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_new_report">NewReportActivity</string>
+    <string name="title_activity_new_report_contact_authorities">NewReportContactAuthoritiesActivity</string>
+    <string name="title_activity_new_report_start">NewReportStartActivity</string>
+    <string name="title_activity_view_incident">ViewIncidentActivity</string>
+    <string name="description">Description</string>
+    <string name="when">When</string>
+    <string name="where">Where</string>
+    <string name="type">Type</string>
+    <string name="title">Title</string>
+
+    <string name="contact">Contact The Authorities</string>
+    <string name="callCBUS">Call Columbus Police</string>
+    <string name="callOSU">Call OSU Police</string>
+    <string name="textCBUS">Text Columbus Police</string>
+    <string name="textOSU">Text OSU Police</string>
+    <string name="contacted">Authorities Have Been Contacted</string>
+
+</resources>
