@@ -5,10 +5,13 @@
     <string name="hello_world">Hello world!</string>
     <string name="contactAuth">Contact the authorities!</string>
     <string name="reportIncident">Report an incident</string>
-    <string name="signup">Signup</string>
+    <string name="signup">Become a Vigilante!</string>
     <string name="login">Log In</string>
+    <string name="alreadyRegistered">Already Registered?</string>
     <string name="password">Enter Password</string>
+    <string name="createPassword">Create new Password</string>
     <string name="username">Enter Username</string>
+    <string name="createUsername">Create new Username</string>
     <string name="newReportHeader">New Report</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

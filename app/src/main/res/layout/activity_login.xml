@@ -41,4 +41,10 @@
         android:layout_height="wrap_content"
         android:text="@string/login"/>
 
+    <!-- Signup button -->
+    <Button android:id="@+id/btnSignup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/signup"/>
+
 </LinearLayout>

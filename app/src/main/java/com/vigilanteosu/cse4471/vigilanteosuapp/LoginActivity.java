@@ -36,6 +36,9 @@ public class LoginActivity extends Activity {
     // login button
     Button btnLogin;
 
+    // signup button
+    Button btnSignup;
+
     // Alert Dialog Manager
     //AlertDialogManager alert = new AlertDialogManager();
 
@@ -55,11 +58,11 @@ public class LoginActivity extends Activity {
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-        //Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
-
-
         // Login button
         btnLogin = (Button) findViewById(R.id.btnLogin);
+
+        // Signup button
+        btnSignup = (Button) findViewById(R.id.btnSignup);
 
         //RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -72,15 +75,12 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View arg0) {
 
-                Log.d("LoginActivity", "Login button clicked");
-
                 // Get username, password from EditText
                 String username = txtUsername.getText().toString();
                 String password = txtPassword.getText().toString();
                 // Check if username, password is filled
                 if(username.trim().length() > 0 && password.trim().length() > 0){
                     // check if the user exists and the password is correct
-                    //
                     String url ="http://jeffcasavant.com:10100/vig/api/v1.0/users/";
                     url = url.concat(username + "/" + password);
 
@@ -89,11 +89,13 @@ public class LoginActivity extends Activity {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     //handle response
-                                    Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                                    Editor prefEdit = getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE).edit();
+                                    Editor prefEdit =
+                                            getSharedPreferences(SessionManagement.PREF_NAME,
+                                                    MODE_PRIVATE).edit();
                                     if (response.has("token")) {
                                         try {
-                                            prefEdit.putString(SessionManagement.API_TOKEN, response.getString("token"));
+                                            prefEdit.putString(SessionManagement.API_TOKEN,
+                                                    response.getString("token"));
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -102,19 +104,19 @@ public class LoginActivity extends Activity {
                                         prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
                                     }
                                     prefEdit.apply();
-                                    SharedPreferences pref = getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE);
-                                    Log.d("LoginActivity: isLoggedIn (should be true or false)",
-                                            (pref.contains(SessionManagement.IS_LOGIN) ?
-                                                    Boolean.toString(pref.getBoolean(SessionManagement.IS_LOGIN, false)) :
-                                                    "Prefs has no login status"));
-                                    if (getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE).getBoolean(SessionManagement.IS_LOGIN, true)) {
+                                    SharedPreferences pref =
+                                            getSharedPreferences(SessionManagement.PREF_NAME,
+                                                    MODE_PRIVATE);
+                                    if (pref.getBoolean(SessionManagement.IS_LOGIN, false)) {
                                         // Staring MainActivity
-                                        Log.d("LoginActivity", "trying to go to FeedActivity");
-                                        Intent i = new Intent(getApplicationContext(), FeedActivity.class);
+                                        Intent i = new Intent(getApplicationContext(),
+                                                FeedActivity.class);
                                         startActivity(i);
                                         finish();
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Login Failed...\nUsername/Password Incorrect", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(),
+                                                "Login Failed...\nUsername/Password Incorrect",
+                                                Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }, new Response.ErrorListener() {
@@ -132,9 +134,22 @@ public class LoginActivity extends Activity {
                     // user didn't entered username or password
                     // Show alert asking him to enter the details
                     //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
-                    Toast.makeText(getApplicationContext(), "Login failed...\nPlease enter username and password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Login failed...\nPlease enter username and password",
+                            Toast.LENGTH_LONG).show();
                 }
 
+            }
+        });
+
+        // Signup button listener
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View arg0) {
+                // Staring SignupActivity
+                Intent i = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }
