@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 /**
  * Created by Allen on 11/2/14.
@@ -24,16 +25,19 @@ public class SessionManagement {
     int PRIVATE_MODE = 0;
 
     // Sharedpref file name
-    private static final String PREF_NAME = "AndroidHivePref";
+    public static final String PREF_NAME = "AndroidHivePref";
 
     // All Shared Preferences Keys
-    private static final String IS_LOGIN = "IsLoggedIn";
+    public static final String IS_LOGIN = "IsLoggedIn";
 
     // User name (make variable public to access from outside)
     public static final String KEY_NAME = "name";
 
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
+
+    // API Token
+    public static final String API_TOKEN = "apiToken";
 
     // Constructor
     public SessionManagement(Context context){
@@ -123,6 +127,8 @@ public class SessionManagement {
      * **/
     // Get Login State
     public boolean isLoggedIn(){
+        Log.d("isLoggedIn",
+                (pref.contains(IS_LOGIN) ? Boolean.toString(pref.getBoolean(IS_LOGIN, false)) : "Prefs has no login status"));
         return pref.getBoolean(IS_LOGIN, false);
     }
 }

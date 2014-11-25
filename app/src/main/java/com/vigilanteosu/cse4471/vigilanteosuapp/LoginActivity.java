@@ -2,7 +2,10 @@ package com.vigilanteosu.cse4471.vigilanteosuapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInstaller;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,7 +22,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.content.SharedPreferences.Editor;
 
 public class LoginActivity extends Activity {
 
@@ -34,15 +40,16 @@ public class LoginActivity extends Activity {
     //AlertDialogManager alert = new AlertDialogManager();
 
     // Session Manager Class
-   // SessionManagement session;
+    // SessionManagement session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         // Session Manager
-       // session = new SessionManagement(getApplicationContext());
+        // session = new SessionManagement(getApplicationContext());
 
         // Email, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
@@ -57,11 +64,16 @@ public class LoginActivity extends Activity {
         //RequestQueue queue = Volley.newRequestQueue(this);
 
         final Context currentContext = this;
+
+
         // Login button click event
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+
+                Log.d("LoginActivity", "Login button clicked");
+
                 // Get username, password from EditText
                 String username = txtUsername.getText().toString();
                 String password = txtPassword.getText().toString();
@@ -69,44 +81,53 @@ public class LoginActivity extends Activity {
                 if(username.trim().length() > 0 && password.trim().length() > 0){
                     // check if the user exists and the password is correct
                     //
-                    String url ="http://localhost:5000/vig/api/v1.0/users/";
+                    String url ="http://jeffcasavant.com:10100/vig/api/v1.0/users/";
                     url = url.concat(username + "/" + password);
 
                     JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                               //handle response
-                               // mTxtDisplay.setText("Response: " + response.toString());
+                            (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    //handle response
+                                    Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                                    Editor prefEdit = getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE).edit();
+                                    if (response.has("token")) {
+                                        try {
+                                            prefEdit.putString(SessionManagement.API_TOKEN, response.getString("token"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        prefEdit.putBoolean(SessionManagement.IS_LOGIN, true);
+                                    } else {
+                                        prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
+                                    }
+                                    prefEdit.apply();
+                                    SharedPreferences pref = getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE);
+                                    Log.d("LoginActivity: isLoggedIn (should be true or false)",
+                                            (pref.contains(SessionManagement.IS_LOGIN) ?
+                                                    Boolean.toString(pref.getBoolean(SessionManagement.IS_LOGIN, false)) :
+                                                    "Prefs has no login status"));
+                                    if (getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE).getBoolean(SessionManagement.IS_LOGIN, true)) {
+                                        // Staring MainActivity
+                                        Log.d("LoginActivity", "trying to go to FeedActivity");
+                                        Intent i = new Intent(getApplicationContext(), FeedActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Login Failed...\nUsername/Password Incorrect", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
 
-                            }
-                        }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO Auto-generated method stub
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO Auto-generated method stub
-
-                            }
-                    });
+                                }
+                            });
 
                     requestQueueSingleton.getInstance(currentContext).addToRequestQueue(jsObjRequest);
 
-                    if(username.equals("test") && password.equals("test")){
-                        // Creating user login session
-                        // For testing i am storing name, email as follow
-                        // Use user real data
-                       // session.createLoginSession("Android Hive", "anroidhive@gmail.com");
-
-                        // Staring MainActivity
-                        Intent i = new Intent(getApplicationContext(), FeedActivity.class);
-                        startActivity(i);
-                        finish();
-
-                    }else{
-                        // username / password doesn't match
-                        //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Username/Password is incorrect", false);
-                        Toast.makeText(getApplicationContext(), "Login failed...\nUsername/Password is incorrect", Toast.LENGTH_LONG).show();
-                    }
                 }else{
                     // user didn't entered username or password
                     // Show alert asking him to enter the details
