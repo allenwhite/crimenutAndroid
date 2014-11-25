@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class ViewIncidentActivity extends FragmentActivity {
 
     GoogleMap googleMap;
+    int x;
 
     private void createMapView(){
         /**
