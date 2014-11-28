@@ -18,10 +18,10 @@
         android:id="@+id/reportHeader" />
 
     <TextView
+        android:text="@string/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/title"
         android:id="@+id/reportTitle"
         android:layout_below="@+id/reportHeader"
         android:layout_alignParentLeft="true"
@@ -109,7 +109,7 @@
         android:layout_marginTop="24dp" />
 
 
-
+<!--description -->
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,5 +120,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <!-- Signup button -->
+    <Button android:id="@+id/btnSubmit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"/>
 
 </RelativeLayout>
