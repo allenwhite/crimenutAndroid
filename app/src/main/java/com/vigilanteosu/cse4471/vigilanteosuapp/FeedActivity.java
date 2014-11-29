@@ -11,7 +11,8 @@ import android.widget.Toast;
 public class FeedActivity extends Activity {
 
     SessionManagement session;
-
+/* WE NEED BUTTONS TO GET TO THE OTHER SCREEN... ALSO MIGHT BE OF VALUE TO CHECK THAT
+THE TOKEN IS VALID (METHOD DNE RN THO)*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
