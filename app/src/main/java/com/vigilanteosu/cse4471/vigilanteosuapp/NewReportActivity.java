@@ -56,12 +56,12 @@ public class NewReportActivity extends Activity {
             @Override
             public void onClick(View arg0) {
                 // Get report details from EditText, spinner
-                SharedPreferences apiPrefs = getSharedPreferences(SessionManagement.API_TOKEN, Context.MODE_PRIVATE);
-                String channel = (apiPrefs.getString(keyChannel, ""));
+
+
 
                 String reportTitle = txtReportTitle.getText().toString();
                 String reportWhere = txtReportWhere.getText().toString();
-                String reportWhen = txtReportWhen.getText().toString();//??????never used???????????
+                String reportWhen = txtReportWhen.getText().toString();//??????never used???????????optional
                 String reportDesc = txtDescription.getText().toString();
                 String crimeType = crimeTypes.getSelectedItem().toString();
 
@@ -69,75 +69,86 @@ public class NewReportActivity extends Activity {
                 if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0 && reportWhen.trim().length() > 0 && reportDesc.trim().length() > 0 && crimeType.trim().length() > 0){
                     JSONObject reportObject = new JSONObject();
                     try {
-                        reportObject.put("userid", reportTitle);//grab from user prefsss????????????
                         reportObject.put("title", reportTitle);
+                        reportObject.put("time", reportWhen);
                         reportObject.put("severity", 1);//where does severity come from?????????????
                         reportObject.put("location", reportWhere);///drop pin???????????????????????
                         reportObject.put("description", reportDesc);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String reportUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports";
-                    JsonObjectRequest postObjRequest = new JsonObjectRequest(
-                            Request.Method.POST,
-                            reportUrl,
-                            reportObject,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    // handle response
+                    String reportUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports?token=";
+                    SharedPreferences apiPrefs = getSharedPreferences(SessionManagement.API_TOKEN, Context.MODE_PRIVATE);
+                    String token = apiPrefs.getString(SessionManagement.API_TOKEN,
+                            "nope");
+                    if(token.equals("nope")){
+                        Toast.makeText(getApplicationContext(),
+                                "Are you even logged in, bro?",
+                                Toast.LENGTH_LONG).show();
+                    }else {
+
+
+                        reportUrl = reportUrl.concat(token);
+
+                        JsonObjectRequest postObjRequest = new JsonObjectRequest(
+                                Request.Method.POST,
+                                reportUrl,
+                                reportObject,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        // handle response
 //                                    SharedPreferences.Editor prefEdit =
 //                                            getSharedPreferences(SessionManagement.PREF_NAME,
 //                                                    MODE_PRIVATE).?edit();
-                                    //Log.d("LoginActivity: response", response.toString());
+                                        //Log.d("LoginActivity: response", response.toString());
 //                                    JSONObject responseReport = null;
 //                                    try {
 //                                        responseReport = response.getJSONObject("user");
 //                                    } catch (JSONException e) {
 //                                        e.printStackTrace();
 //                                    }
-                                    if (response.has("result")) {
-                                        try {
-                                             String result = response.getString("result");
-                                            if(result.equals("true")){
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Your report has been posted! Thanks for being a vigilante",
-                                                        Toast.LENGTH_LONG).show();
-                                                Intent i = new Intent(getApplicationContext(), FeedActivity.class);
-                                                startActivity(i);
-                                                finish();
-                                            }else{
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Something went amiss posting your report... please try again",
-                                                        Toast.LENGTH_LONG).show();
+                                        if (response.has("result")) {
+                                            try {
+                                                String result = response.getString("result");
+                                                if (result.equals("true")) {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Your report has been posted! Thanks for being a vigilante",
+                                                            Toast.LENGTH_LONG).show();
+                                                    Intent i = new Intent(getApplicationContext(), FeedActivity.class);
+                                                    startActivity(i);
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Something went amiss posting your report... please try again",
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Failed to post your report... please try again",
+                                                    Toast.LENGTH_LONG).show();
                                         }
-                                    } else {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Failed to post your report... please try again",
-                                                Toast.LENGTH_LONG).show();
                                     }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(),"I don't know what is happening.",
-                                    Toast.LENGTH_LONG).show();
-                        }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), "I don't know what is happening.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
                     }
-                    );
-
-                    requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
                 }else{
-                    // user didn't entered username or password
-                    // Show alert asking him to enter the details
-                    //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
-                    Toast.makeText(getApplicationContext(),
-                            "Post failed...\nPlease fill out all report details",
-                            Toast.LENGTH_LONG).show();
-                }
+                // user didn't entered username or password
+                // Show alert asking him to enter the details
+                //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+                Toast.makeText(getApplicationContext(),
+                        "Post failed...\nPlease fill out all report details",
+                        Toast.LENGTH_LONG).show();
+            }
             }
         });
 
