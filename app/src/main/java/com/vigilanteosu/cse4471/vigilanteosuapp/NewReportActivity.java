@@ -22,6 +22,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 
 public class NewReportActivity extends Activity {
 
@@ -73,17 +75,24 @@ public class NewReportActivity extends Activity {
                         e.printStackTrace();
                     }
                     String reportUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports?token=";
-                    SharedPreferences apiPrefs = getSharedPreferences(SessionManagement.API_TOKEN, Context.MODE_PRIVATE);
-                    String token = apiPrefs.getString(SessionManagement.API_TOKEN,
-                            "nope");
-                    if(token.equals("nope")){
+
+                    ///lets give this a try
+                    SessionManagement session;
+                    session = new SessionManagement(getApplicationContext());
+
+                    HashMap<String, String> token = session.getUserToken();
+
+                    String tkn = token.get("apiToken");
+                    Toast.makeText(getApplicationContext(), tkn, Toast.LENGTH_LONG).show();
+
+                    if(tkn.equals("")){
                         Toast.makeText(getApplicationContext(),
                                 "Are you even logged in, bro?",
                                 Toast.LENGTH_LONG).show();
                     }else {
 
 
-                        reportUrl = reportUrl.concat(token);
+                        reportUrl = reportUrl.concat(tkn);
 
                         JsonObjectRequest postObjRequest = new JsonObjectRequest(
                                 Request.Method.POST,
@@ -93,16 +102,6 @@ public class NewReportActivity extends Activity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         // handle response
-//                                    SharedPreferences.Editor prefEdit =
-//                                            getSharedPreferences(SessionManagement.PREF_NAME,
-//                                                    MODE_PRIVATE).?edit();
-                                        //Log.d("LoginActivity: response", response.toString());
-//                                    JSONObject responseReport = null;
-//                                    try {
-//                                        responseReport = response.getJSONObject("user");
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
                                         if (response.has("result")) {
                                             try {
                                                 String result = response.getString("result");

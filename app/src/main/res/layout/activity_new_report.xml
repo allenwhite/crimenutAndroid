@@ -32,9 +32,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/reportTitleInput"
-        android:layout_toEndOf="@+id/reportType"
+        android:ems="10"
+        android:layout_toEndOf="@+id/reportWhere"
         android:layout_alignTop="@+id/reportTitle"
         android:layout_toRightOf="@+id/reportTitle" />
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:text="@string/type"-->
+        <!--android:id="@+id/reportType"-->
+        <!--android:layout_marginTop="27dp"-->
+        <!--android:layout_below="@+id/reportTitle"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +55,7 @@
         android:text="@string/where"
         android:id="@+id/reportWhere"
         android:layout_marginTop="35dp"
-        android:layout_below="@+id/reportType"
+        android:layout_below="@+id/reportTitle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -53,7 +65,7 @@
         android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/reportWhereInput"
-        android:layout_toEndOf="@+id/reportType"
+        android:layout_toEndOf="@+id/reportWhere"
         android:layout_alignTop="@+id/reportWhere"
         android:layout_toRightOf="@+id/reportWhere" />
 
@@ -71,10 +83,10 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="time"
+        android:inputType="date"
         android:ems="10"
         android:id="@+id/reportWhenInput"
-        android:layout_toEndOf="@+id/reportType"
+        android:layout_toEndOf="@+id/reportWhen"
         android:layout_alignTop="@+id/reportWhen"
         android:layout_toRightOf="@+id/reportWhen" />
 

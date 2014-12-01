@@ -63,6 +63,8 @@ public class SessionManagement {
         editor.commit();
     }
 
+
+
     /**
      * Check login method wil check user login status
      * If false it will redirect user to login page
@@ -100,6 +102,19 @@ public class SessionManagement {
 
         // return user
         return user;
+    }
+
+
+    /**
+     * Get stored session data for token
+     * */
+    public HashMap<String, String> getUserToken(){
+        HashMap<String, String> token = new HashMap<String, String>();
+        // user name
+        token.put(API_TOKEN, pref.getString(API_TOKEN, null));
+
+        // return user
+        return token;
     }
 
     /**

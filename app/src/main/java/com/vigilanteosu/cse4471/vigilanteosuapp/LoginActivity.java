@@ -94,8 +94,10 @@ public class LoginActivity extends Activity {
                                                     MODE_PRIVATE).edit();
                                     if (response.has("token")) {
                                         try {
+
                                             prefEdit.putString(SessionManagement.API_TOKEN,
                                                     response.getString("token"));
+
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -143,15 +145,6 @@ public class LoginActivity extends Activity {
         });
 
         // Signup button listener
-//        btnSignup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick (View arg0) {
-//                // Staring SignupActivity
-//                Intent i = new Intent(getApplicationContext(), SignupActivity.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        });
     }
 
     public void openSignup(View view){
