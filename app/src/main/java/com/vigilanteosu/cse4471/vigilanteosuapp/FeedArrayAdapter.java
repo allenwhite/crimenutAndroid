@@ -1,6 +1,7 @@
 package com.vigilanteosu.cse4471.vigilanteosuapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,16 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
                 severityIcon.setImageResource(R.drawable.fourseverity);
                 break;
         }
+
+        final String reportid = "";
+        final Context currentContext = this.context;
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View arg0) {
+                Intent intent = new Intent(context, Report.class);
+                context.startActivity(intent);
+            }
+        });
         return rowView;
     }
 }

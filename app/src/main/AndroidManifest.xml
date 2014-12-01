@@ -26,9 +26,21 @@
 
     <meta-data
         android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyCD4Y9gvb0V4TZhn2LmdDlIU7m2jjM8E8U" />
+        android:value="AIzaSyC1uKMSc4Kbip4HaCfpRm9St52QkghV8uk" />
     <activity
         android:name=".FeedActivity"
+        android:label=""
+        android:configChanges="orientation"
+        android:screenOrientation="portrait">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <activity
+        android:name=".Report"
         android:label=""
         android:configChanges="orientation"
         android:screenOrientation="portrait">

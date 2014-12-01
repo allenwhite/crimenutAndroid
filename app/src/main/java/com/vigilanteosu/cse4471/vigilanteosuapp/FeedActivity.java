@@ -191,7 +191,6 @@ public class FeedActivity extends ListActivity {
             @Override
             public void onClick (View arg0) {
                 getReports(reports[reports.length - 1].get("reportid"), reports);
-
             }
         });
     }
