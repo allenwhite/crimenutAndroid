@@ -40,5 +40,6 @@
     <string name="textCBUS">Text Columbus Police</string>
     <string name="textOSU">Text OSU Police</string>
     <string name="contacted">Authorities Have Been Contacted</string>
+    <string name="moreReports">More Reports</string>
 
 </resources>
