@@ -59,11 +59,13 @@ public class NewReportActivity extends Activity {
                 String reportDesc = txtDescription.getText().toString();
 
                 // Check if username, password is filled
-                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0 && reportWhen.trim().length() > 0 && reportDesc.trim().length() > 0){
+                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0  && reportDesc.trim().length() > 0){
                     JSONObject reportObject = new JSONObject();
                     try {
                         reportObject.put("title", reportTitle);
-                        reportObject.put("time", reportWhen);
+                        if(reportWhen.trim().length() > 0){
+                            reportObject.put("time", reportWhen);
+                        }
                         reportObject.put("severity", 1);//where does severity come from?????????????
                         reportObject.put("location", reportWhere);///drop pin???????????????????????
                         reportObject.put("description", reportDesc);

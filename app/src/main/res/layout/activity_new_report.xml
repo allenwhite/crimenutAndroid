@@ -40,17 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/type"
-        android:id="@+id/reportType"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/reportTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/where"
         android:id="@+id/reportWhere"
         android:layout_marginTop="35dp"
@@ -82,7 +71,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
+        android:inputType="time"
         android:ems="10"
         android:id="@+id/reportWhenInput"
         android:layout_toEndOf="@+id/reportType"
