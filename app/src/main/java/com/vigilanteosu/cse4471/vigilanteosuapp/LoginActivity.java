@@ -143,15 +143,20 @@ public class LoginActivity extends Activity {
         });
 
         // Signup button listener
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View arg0) {
-                // Staring SignupActivity
-                Intent i = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+//        btnSignup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick (View arg0) {
+//                // Staring SignupActivity
+//                Intent i = new Intent(getApplicationContext(), SignupActivity.class);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
+    }
+
+    public void openSignup(View view){
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
     }
 
 

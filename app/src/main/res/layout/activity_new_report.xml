@@ -47,14 +47,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/reportTypeOptions"
-        android:layout_toEndOf="@+id/reportType"
-        android:layout_alignTop="@+id/reportType"
-        android:layout_toRightOf="@+id/reportType" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

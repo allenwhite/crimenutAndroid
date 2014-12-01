@@ -28,9 +28,6 @@ public class NewReportActivity extends Activity {
     // Email, password edittext
     EditText txtReportTitle, txtReportWhere, txtReportWhen, txtDescription;
 
-    //crime type
-    Spinner crimeTypes;
-
     // submit button
     Button btnSubmit;
 
@@ -47,7 +44,6 @@ public class NewReportActivity extends Activity {
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
-        crimeTypes = (Spinner) findViewById(R.id.reportTypeOptions);
 
         final Context currentContext = this;
 
@@ -57,16 +53,13 @@ public class NewReportActivity extends Activity {
             public void onClick(View arg0) {
                 // Get report details from EditText, spinner
 
-
-
                 String reportTitle = txtReportTitle.getText().toString();
                 String reportWhere = txtReportWhere.getText().toString();
                 String reportWhen = txtReportWhen.getText().toString();//??????never used???????????optional
                 String reportDesc = txtDescription.getText().toString();
-                String crimeType = crimeTypes.getSelectedItem().toString();
 
                 // Check if username, password is filled
-                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0 && reportWhen.trim().length() > 0 && reportDesc.trim().length() > 0 && crimeType.trim().length() > 0){
+                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0 && reportWhen.trim().length() > 0 && reportDesc.trim().length() > 0){
                     JSONObject reportObject = new JSONObject();
                     try {
                         reportObject.put("title", reportTitle);
