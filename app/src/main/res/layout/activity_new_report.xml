@@ -124,6 +124,9 @@
     <Button android:id="@+id/btnSubmit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"/>
+        android:text="@string/submit"
+        android:layout_below="@+id/editText2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
