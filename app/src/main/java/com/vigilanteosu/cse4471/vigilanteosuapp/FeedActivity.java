@@ -2,9 +2,8 @@ package com.vigilanteosu.cse4471.vigilanteosuapp;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
