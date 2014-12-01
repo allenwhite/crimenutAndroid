@@ -38,7 +38,6 @@
                 android:id="@+id/button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:color="#FF0000"
                 android:onClick="callColumbus"/>
 
             <Button
@@ -48,7 +47,6 @@
                 android:id="@+id/button2"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:color="#FF0000"
                 android:onClick="callOSU"/>
 
             <Button
