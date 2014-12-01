@@ -83,14 +83,12 @@ public class NewReportActivity extends Activity {
                     HashMap<String, String> token = session.getUserToken();
 
                     String tkn = token.get("apiToken");
-                    Toast.makeText(getApplicationContext(), tkn, Toast.LENGTH_LONG).show();
 
                     if(tkn.equals("")){
                         Toast.makeText(getApplicationContext(),
                                 "Are you even logged in, bro?",
                                 Toast.LENGTH_LONG).show();
                     }else {
-
 
                         reportUrl = reportUrl.concat(tkn);
 
@@ -136,12 +134,12 @@ public class NewReportActivity extends Activity {
                         requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
                     }
                 }else{
-                // user didn't entered username or password
-                // Show alert asking him to enter the details
-                //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
-                Toast.makeText(getApplicationContext(),
-                        "Post failed...\nPlease fill out all report details",
-                        Toast.LENGTH_LONG).show();
+                    // user didn't entered username or password
+                    // Show alert asking him to enter the details
+                    //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+                    Toast.makeText(getApplicationContext(),
+                            "Post failed...\nPlease fill out all report details",
+                            Toast.LENGTH_LONG).show();
             }
             }
         });
