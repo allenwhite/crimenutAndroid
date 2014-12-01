@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dip">
+    android:padding="10dip"
+    android:background="#FFFFFF">
 
     <!-- Email Label -->
     <TextView
@@ -45,6 +46,7 @@
     <Button android:id="@+id/btnSignup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signup"/>
+        android:text="@string/signup"
+        android:onClick="openSignup" />
 
 </LinearLayout>

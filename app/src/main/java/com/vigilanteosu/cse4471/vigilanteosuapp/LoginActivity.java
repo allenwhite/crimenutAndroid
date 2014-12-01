@@ -94,8 +94,10 @@ public class LoginActivity extends Activity {
                                                     MODE_PRIVATE).edit();
                                     if (response.has("token")) {
                                         try {
+
                                             prefEdit.putString(SessionManagement.API_TOKEN,
                                                     response.getString("token"));
+
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -143,22 +145,18 @@ public class LoginActivity extends Activity {
         });
 
         // Signup button listener
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View arg0) {
-                // Staring SignupActivity
-                Intent i = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+    }
+
+    public void openSignup(View view){
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
+        getMenuInflater().inflate(R.menu.feed, menu);
         return true;
     }
 

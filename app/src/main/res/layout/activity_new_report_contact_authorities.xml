@@ -6,7 +6,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.cse4471.allen.vigilanteosu.NewReportContactAuthoritiesActivity">
+    tools:context="com.cse4471.allen.vigilanteosu.NewReportContactAuthoritiesActivity"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:orientation="vertical"
@@ -37,7 +38,6 @@
                 android:id="@+id/button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:color="#FF0000"
                 android:onClick="callColumbus"/>
 
             <Button
@@ -47,7 +47,6 @@
                 android:id="@+id/button2"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-                android:color="#FF0000"
                 android:onClick="callOSU"/>
 
             <Button

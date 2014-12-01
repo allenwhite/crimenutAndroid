@@ -22,14 +22,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 
 public class NewReportActivity extends Activity {
 
     // Email, password edittext
     EditText txtReportTitle, txtReportWhere, txtReportWhen, txtDescription;
-
-    //crime type
-    Spinner crimeTypes;
 
     // submit button
     Button btnSubmit;
@@ -47,7 +46,6 @@ public class NewReportActivity extends Activity {
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
-        crimeTypes = (Spinner) findViewById(R.id.reportTypeOptions);
 
         final Context currentContext = this;
 
@@ -57,20 +55,19 @@ public class NewReportActivity extends Activity {
             public void onClick(View arg0) {
                 // Get report details from EditText, spinner
 
-
-
                 String reportTitle = txtReportTitle.getText().toString();
                 String reportWhere = txtReportWhere.getText().toString();
                 String reportWhen = txtReportWhen.getText().toString();//??????never used???????????optional
                 String reportDesc = txtDescription.getText().toString();
-                String crimeType = crimeTypes.getSelectedItem().toString();
 
                 // Check if username, password is filled
-                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0 && reportWhen.trim().length() > 0 && reportDesc.trim().length() > 0 && crimeType.trim().length() > 0){
+                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0  && reportDesc.trim().length() > 0){
                     JSONObject reportObject = new JSONObject();
                     try {
                         reportObject.put("title", reportTitle);
-                        reportObject.put("time", reportWhen);
+                        if(reportWhen.trim().length() > 0){
+                            reportObject.put("time", reportWhen);
+                        }
                         reportObject.put("severity", 1);//where does severity come from?????????????
                         reportObject.put("location", reportWhere);///drop pin???????????????????????
                         reportObject.put("description", reportDesc);
@@ -78,17 +75,22 @@ public class NewReportActivity extends Activity {
                         e.printStackTrace();
                     }
                     String reportUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports?token=";
-                    SharedPreferences apiPrefs = getSharedPreferences(SessionManagement.API_TOKEN, Context.MODE_PRIVATE);
-                    String token = apiPrefs.getString(SessionManagement.API_TOKEN,
-                            "nope");
-                    if(token.equals("nope")){
+
+                    ///lets give this a try
+                    SessionManagement session;
+                    session = new SessionManagement(getApplicationContext());
+
+                    HashMap<String, String> token = session.getUserToken();
+
+                    String tkn = token.get("apiToken");
+
+                    if(tkn.equals("")){
                         Toast.makeText(getApplicationContext(),
                                 "Are you even logged in, bro?",
                                 Toast.LENGTH_LONG).show();
                     }else {
 
-
-                        reportUrl = reportUrl.concat(token);
+                        reportUrl = reportUrl.concat(tkn);
 
                         JsonObjectRequest postObjRequest = new JsonObjectRequest(
                                 Request.Method.POST,
@@ -98,16 +100,6 @@ public class NewReportActivity extends Activity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         // handle response
-//                                    SharedPreferences.Editor prefEdit =
-//                                            getSharedPreferences(SessionManagement.PREF_NAME,
-//                                                    MODE_PRIVATE).?edit();
-                                        //Log.d("LoginActivity: response", response.toString());
-//                                    JSONObject responseReport = null;
-//                                    try {
-//                                        responseReport = response.getJSONObject("user");
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
                                         if (response.has("result")) {
                                             try {
                                                 String result = response.getString("result");
@@ -142,12 +134,12 @@ public class NewReportActivity extends Activity {
                         requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
                     }
                 }else{
-                // user didn't entered username or password
-                // Show alert asking him to enter the details
-                //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
-                Toast.makeText(getApplicationContext(),
-                        "Post failed...\nPlease fill out all report details",
-                        Toast.LENGTH_LONG).show();
+                    // user didn't entered username or password
+                    // Show alert asking him to enter the details
+                    //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+                    Toast.makeText(getApplicationContext(),
+                            "Post failed...\nPlease fill out all report details",
+                            Toast.LENGTH_LONG).show();
             }
             }
         });
@@ -158,19 +150,24 @@ public class NewReportActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.new_report, menu);
+        getMenuInflater().inflate(R.menu.feed, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_compose:
+                openCompose();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    public void openCompose(){
+        Intent intent = new Intent(this, NewReportStartActivity.class);
+        startActivity(intent);
     }
 }

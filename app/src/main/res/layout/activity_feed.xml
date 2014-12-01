@@ -13,11 +13,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
-    <!--<Button-->
-        <!--android:id="@+id/btnMoreReports"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:text="@string/moreReports"-->
-        <!--android:layout_alignParentBottom="true"/>-->
 
 </RelativeLayout>
