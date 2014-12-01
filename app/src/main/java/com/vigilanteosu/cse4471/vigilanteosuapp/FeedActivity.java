@@ -62,6 +62,7 @@ public class FeedActivity extends ListActivity {
         }
         String url = createUrl(token, reportUUID, numPosts);
         final Context currentContext = this;
+        final ListActivity currentActivity = this;
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
@@ -87,6 +88,8 @@ public class FeedActivity extends ListActivity {
                             else{
                                 final FeedArrayAdapter adapter= new FeedArrayAdapter(currentContext, properReport);
                                 setListAdapter(adapter);
+                                ListView listview = currentActivity.getListView();
+                                listview.setSelection(startPos);
 //                                final FeedArrayAdapter adapter = ((FeedArrayAdapter)getListAdapter());
 //                                adapter.clear();
 //                                adapter.addAll(Arrays.asList(reports));
@@ -194,7 +197,6 @@ public class FeedActivity extends ListActivity {
             @Override
             public void onClick (View arg0) {
                 getReports(reports[reports.length - 1].get("reportid"), reports);
-                listview.setSelection(reports.length-1);
 
             }
         });
