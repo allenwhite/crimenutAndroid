@@ -55,6 +55,10 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
         reportLocation.setText(values.get(position).get("location"));
         reportTitle.setText(values.get(position).get("title"));
         final String desc = values.get(position).get("description");
+        final String lon = values.get(position).get("lon");
+        final String lat = values.get(position).get("lat");
+
+
         final int severity = Integer.parseInt(values.get(position).get("severity"));
         // Change the icon for Windows and iPhone
         switch(severity){
@@ -86,6 +90,8 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
                 intent.putExtra("reportLocation", reportLocation.getText().toString());
                 intent.putExtra("severity", severity);
                 intent.putExtra("reportDesc", desc);
+                intent.putExtra("lon", lon);
+                intent.putExtra("lat", lat);
                 context.startActivity(intent);
             }
         });

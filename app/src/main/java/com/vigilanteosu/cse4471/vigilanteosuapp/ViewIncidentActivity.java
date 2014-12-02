@@ -23,13 +23,14 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class ViewIncidentActivity extends FragmentActivity {
 
     GoogleMap googleMap;
 
-    private void createMapView(){
+    private void createMapView(double lon, double lat){
         /**
          * Catch the null pointer exception that
          * may be thrown when initialising the map
@@ -45,19 +46,10 @@ public class ViewIncidentActivity extends FragmentActivity {
 
                 Location loc = locMan.getLastKnownLocation(locMan.getBestProvider(crit, false));
 
-
-
-                CameraPosition camPos = new CameraPosition.Builder()
-
-                        .target(new LatLng(loc.getLatitude(), loc.getLongitude()))
-
-                        .zoom(12.8f)
-
-                        .build();
-
-                CameraUpdate camUpdate = CameraUpdateFactory.newCameraPosition(camPos);
-
-                googleMap.moveCamera(camUpdate);
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(
+                        lat,
+                        -lon)));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
                 /**
                  * If the map is still null after attempted initialisation,
                  * show an error to the user
@@ -77,7 +69,9 @@ public class ViewIncidentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
-        createMapView();
+        double lat = Double.parseDouble(getIntent().getExtras().getString("lat"));
+        double lon = Double.parseDouble(getIntent().getExtras().getString("lon"));
+        createMapView(lon,lat);
 
         TextView title = (TextView)findViewById(R.id.report_title);
         TextView loc = (TextView)findViewById(R.id.report_location);

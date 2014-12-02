@@ -157,6 +157,20 @@ public class FeedActivity extends ListActivity {
                 e.printStackTrace();
             }
         }
+        if(jsobj.has("lon")){
+            try {
+                report.put("lon", Double.toString(jsobj.getDouble("lon")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(jsobj.has("lat")){
+            try {
+                report.put("lat", Double.toString(jsobj.getDouble("lat")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         reports[i+startPos] = report;
     }
 
