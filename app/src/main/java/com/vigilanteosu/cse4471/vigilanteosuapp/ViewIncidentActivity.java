@@ -40,16 +40,17 @@ public class ViewIncidentActivity extends FragmentActivity {
                 googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                         R.id.mapView)).getMap();
 
-                LocationManager locMan = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-
-                Criteria crit = new Criteria();
-
-                Location loc = locMan.getLastKnownLocation(locMan.getBestProvider(crit, false));
+//                LocationManager locMan = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+//
+//                Criteria crit = new Criteria();
+//
+//                Location loc = locMan.getLastKnownLocation(locMan.getBestProvider(crit, false));
 
                 googleMap.addMarker(new MarkerOptions().position(new LatLng(
                         lat,
-                        -lon)));
+                        lon)));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
+                
                 /**
                  * If the map is still null after attempted initialisation,
                  * show an error to the user
@@ -82,7 +83,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         title.setText(getIntent().getExtras().getString("reportTitle"));
         loc.setText(getIntent().getExtras().getString("reportLocation"));
         time.setText(getIntent().getExtras().getString("reportTime"));
-        desc.setText(getIntent().getExtras().getString("reportDesc"));
+        desc.setText(getIntent().getExtras().getString("reportDesc") + lat + lon);
 
         ImageView severityIcon = (ImageView)findViewById(R.id.severity_icon);
 
