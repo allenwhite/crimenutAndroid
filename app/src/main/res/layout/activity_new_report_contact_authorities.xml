@@ -49,23 +49,23 @@
                 android:layout_marginBottom="5dp"
                 android:onClick="callOSU"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/textCBUS"
-                android:id="@+id/button3"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                />
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/textCBUS"-->
+                <!--android:id="@+id/button3"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--/>-->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/textOSU"
-                android:id="@+id/button4"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                />
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/textOSU"-->
+                <!--android:id="@+id/button4"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--/>-->
 
             <Button
                 android:layout_width="wrap_content"
