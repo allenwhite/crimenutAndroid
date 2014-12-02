@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -160,15 +159,14 @@ public class FeedActivity extends ListActivity {
         }
         if(jsobj.has("lon")){
             try {
-                report.put("lon", jsobj.getString("lon"));
+                report.put("lon", Double.toString(jsobj.getDouble("lon")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         if(jsobj.has("lat")){
             try {
-                report.put("lat", jsobj.getString("lat"));
-
+                report.put("lat", Double.toString(jsobj.getDouble("lat")));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

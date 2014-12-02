@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,12 +55,8 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
         reportLocation.setText(values.get(position).get("location"));
         reportTitle.setText(values.get(position).get("title"));
         final String desc = values.get(position).get("description");
-
-
         final String lon = values.get(position).get("lon");
         final String lat = values.get(position).get("lat");
-
-
 
 
         final int severity = Integer.parseInt(values.get(position).get("severity"));
@@ -95,14 +90,8 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
                 intent.putExtra("reportLocation", reportLocation.getText().toString());
                 intent.putExtra("severity", severity);
                 intent.putExtra("reportDesc", desc);
-
-                if(!lon.equals("None") && !lat.equals("None")){
-                    intent.putExtra("lon", lon);
-                    intent.putExtra("lat", lat);
-                }else{
-                    intent.putExtra("lon", "nah");
-                    intent.putExtra("lat", "nah");
-                }
+                intent.putExtra("lon", lon);
+                intent.putExtra("lat", lat);
                 context.startActivity(intent);
             }
         });

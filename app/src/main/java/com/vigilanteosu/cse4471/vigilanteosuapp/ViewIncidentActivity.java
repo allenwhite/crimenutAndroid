@@ -31,7 +31,6 @@ public class ViewIncidentActivity extends FragmentActivity {
     GoogleMap googleMap;
 
     private void createMapView(double lon, double lat){
-        Toast.makeText(getApplicationContext(), "we in the map yo", Toast.LENGTH_LONG).show();
         /**
          * Catch the null pointer exception that
          * may be thrown when initialising the map
@@ -41,25 +40,27 @@ public class ViewIncidentActivity extends FragmentActivity {
                 googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                         R.id.mapView)).getMap();
 
-//                LocationManager locMan = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-//
-//                Criteria crit = new Criteria();
-//
-//                Location loc = locMan.getLastKnownLocation(locMan.getBestProvider(crit, false));
-//
-//                googleMap.addMarker(new MarkerOptions().position(new LatLng(lat,lon)));
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
-//                /**
-//                 * If the map is still null after attempted initialisation,
-//                 * show an error to the user
-//                 */
-//                if(null == googleMap) {
-//                    Toast.makeText(getApplicationContext(),
-//                            "Error creating map", Toast.LENGTH_SHORT).show();
-//                }
+                LocationManager locMan = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+
+                Criteria crit = new Criteria();
+
+                Location loc = locMan.getLastKnownLocation(locMan.getBestProvider(crit, false));
+
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(
+                        lat,
+                        -lon)));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
+                /**
+                 * If the map is still null after attempted initialisation,
+                 * show an error to the user
+                 */
+                if(null == googleMap) {
+                    Toast.makeText(getApplicationContext(),
+                            "Error creating map", Toast.LENGTH_SHORT).show();
+                }
             }
         } catch (NullPointerException exception){
-            Toast.makeText(getApplicationContext(), "map seems to have failed", Toast.LENGTH_LONG).show();
+            Log.e("mapApp", exception.toString());
         }
     }
 
@@ -68,17 +69,9 @@ public class ViewIncidentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
-
-        String lon = getIntent().getExtras().getString("lon");
-        String lat = getIntent().getExtras().getString("lat");
-
-        if(!lon.equals("nah") && !lat.equals("nah")){
-            double latd = Double.parseDouble(lat);
-            double lond = Double.parseDouble(lon);
-            createMapView(lond, latd);
-        }
-
-
+        double lat = Double.parseDouble(getIntent().getExtras().getString("lat"));
+        double lon = Double.parseDouble(getIntent().getExtras().getString("lon"));
+        createMapView(lon,lat);
 
         TextView title = (TextView)findViewById(R.id.report_title);
         TextView loc = (TextView)findViewById(R.id.report_location);

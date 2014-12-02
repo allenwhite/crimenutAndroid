@@ -16,15 +16,31 @@
     android:logo="@drawable/viglogo"
     android:theme="@style/AppTheme" >
 
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>
 
     <meta-data
         android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyDbhGe9No6LXpg4GPJmZPYDXL51VAOECkI" />
+        android:value="AIzaSyC1uKMSc4Kbip4HaCfpRm9St52QkghV8uk" />
     <activity
         android:name=".FeedActivity"
+        android:label=""
+        android:configChanges="orientation"
+        android:screenOrientation="portrait">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <activity
+        android:name=".Report"
         android:label=""
         android:configChanges="orientation"
         android:screenOrientation="portrait">
@@ -72,9 +88,6 @@
         android:configChanges="orientation"
         android:screenOrientation="portrait">
     </activity>
-    <meta-data
-        android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
 </application>
 
 </manifest>
