@@ -159,14 +159,14 @@ public class FeedActivity extends ListActivity {
         }
         if(jsobj.has("lon")){
             try {
-                report.put("lon", Double.toString(jsobj.getDouble("lon")));
+                report.put("lon", jsobj.getString("lon"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         if(jsobj.has("lat")){
             try {
-                report.put("lat", Double.toString(jsobj.getDouble("lat")));
+                report.put("lat", jsobj.getString("lat"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

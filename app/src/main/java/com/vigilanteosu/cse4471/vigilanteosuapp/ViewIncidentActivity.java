@@ -69,9 +69,14 @@ public class ViewIncidentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
-        double lat = Double.parseDouble(getIntent().getExtras().getString("lat"));
-        double lon = Double.parseDouble(getIntent().getExtras().getString("lon"));
-        createMapView(lon,lat);
+        String lats = getIntent().getExtras().getString("lat");
+        String lons = getIntent().getExtras().getString("lon");
+
+        if(!lats.equals("nah") && !lons.equals("nah")){
+            double lat = Double.parseDouble(lats);
+            double lon = Double.parseDouble(lons);
+            createMapView(lon,lat);
+        }
 
         TextView title = (TextView)findViewById(R.id.report_title);
         TextView loc = (TextView)findViewById(R.id.report_location);
