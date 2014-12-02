@@ -42,20 +42,22 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.activity_feed_row, parent, false);
-        TextView reportTime = (TextView) rowView.findViewById(R.id.report_time);
-        TextView reportTitle = (TextView) rowView.findViewById(R.id.report_title);
-        TextView reportLocation = (TextView) rowView.findViewById(R.id.report_location);
+        final TextView reportTime = (TextView) rowView.findViewById(R.id.report_time);
+        final TextView reportTitle = (TextView) rowView.findViewById(R.id.report_title);
+        final TextView reportLocation = (TextView) rowView.findViewById(R.id.report_location);
         ImageView severityIcon = (ImageView) rowView.findViewById(R.id.severity_icon);
 //        textView.setText(values[position]);
         reportTime.setText(values.get(position).get("time"));
         reportLocation.setText(values.get(position).get("location"));
         reportTitle.setText(values.get(position).get("title"));
+        final String desc = values.get(position).get("description");
+        final int severity = Integer.parseInt(values.get(position).get("severity"));
         // Change the icon for Windows and iPhone
-        switch(Integer.parseInt(values.get(position).get("severity"))){
+        switch(severity){
             case 0:
                 severityIcon.setImageResource(R.drawable.zeroseverity);
                 break;
@@ -78,7 +80,12 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View arg0) {
-                Intent intent = new Intent(context, Report.class);
+                Intent intent = new Intent(context, ViewIncidentActivity.class);
+                intent.putExtra("reportTime", reportTime.getText().toString());
+                intent.putExtra("reportTitle", reportTitle.getText().toString());
+                intent.putExtra("reportLocation", reportLocation.getText().toString());
+                intent.putExtra("severity", severity);
+                intent.putExtra("reportDesc", desc);
                 context.startActivity(intent);
             }
         });

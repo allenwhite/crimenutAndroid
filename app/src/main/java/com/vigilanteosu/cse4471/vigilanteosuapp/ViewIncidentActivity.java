@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -76,6 +78,37 @@ public class ViewIncidentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
         createMapView();
+
+        TextView title = (TextView)findViewById(R.id.report_title);
+        TextView loc = (TextView)findViewById(R.id.report_location);
+        TextView time = (TextView)findViewById(R.id.report_time);
+        TextView desc = (TextView)findViewById(R.id.report_desc);
+
+        int severity = getIntent().getExtras().getInt("severity");
+        title.setText(getIntent().getExtras().getString("reportTitle"));
+        loc.setText(getIntent().getExtras().getString("reportLocation"));
+        time.setText(getIntent().getExtras().getString("reportTime"));
+        desc.setText(getIntent().getExtras().getString("reportDesc"));
+
+        ImageView severityIcon = (ImageView)findViewById(R.id.severity_icon);
+
+        switch(severity){
+            case 0:
+                severityIcon.setImageResource(R.drawable.zeroseverity);
+                break;
+            case 1:
+                severityIcon.setImageResource(R.drawable.oneseverity);
+                break;
+            case 2:
+                severityIcon.setImageResource(R.drawable.twoseverity);
+                break;
+            case 3:
+                severityIcon.setImageResource(R.drawable.threeseverity);
+                break;
+            case 4:
+                severityIcon.setImageResource(R.drawable.fourseverity);
+                break;
+        }
     }
 
 

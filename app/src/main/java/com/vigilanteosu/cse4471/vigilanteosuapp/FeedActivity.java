@@ -129,13 +129,13 @@ public class FeedActivity extends ListActivity {
                 e.printStackTrace();
             }
         }
-        //                                if(jsobj.has("description")){
-//                                    try {
-//                                        report.put("description", jsobj.getString("description"));
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
+                                if(jsobj.has("description")){
+                                    try {
+                                        report.put("description", jsobj.getString("description"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
         if(jsobj.has("severity")){
             try {
                 report.put("severity", jsobj.getString("severity"));
