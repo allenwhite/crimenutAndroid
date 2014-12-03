@@ -171,6 +171,13 @@ public class FeedActivity extends ListActivity {
                 e.printStackTrace();
             }
         }
+        if(jsobj.has("reportid")){
+            try {
+                report.put("reportid", jsobj.getString("reportid"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         reports[i+startPos] = report;
     }
 
@@ -192,7 +199,7 @@ public class FeedActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Feed", "FeedActivity.onCreate()");
+        //Log.d("Feed", "FeedActivity.onCreate()");
 
         setContentView(R.layout.activity_feed);
 

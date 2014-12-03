@@ -1,38 +1,44 @@
 package com.vigilanteosu.cse4471.vigilanteosuapp;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.google.android.gms.maps.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 public class ViewIncidentActivity extends FragmentActivity {
 
     GoogleMap googleMap;
+    private ReplyArrayAdapter raa;
 
     private void createMapView(double lon, double lat, String loc){
         /**
@@ -73,12 +79,104 @@ public class ViewIncidentActivity extends FragmentActivity {
     }
 
 
+//    private void setReplies(JSONArray rps, int i, HashMap<String, String>[] reports) {
+//        HashMap<String, String> report = new HashMap<String, String>();
+//        JSONObject jsobj = null;
+//        try {
+//            jsobj = (JSONObject)rps.get(i);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        if(jsobj.has("body")){
+//            try {
+//                report.put("body", jsobj.getString("body"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(jsobj.has("time")){
+//            try {
+//                report.put("time", jsobj.getString("time"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        reports[i] = report;
+//    }
+
+//    /**
+//     * just spitballin here
+//      * @param reportid
+//     * @return
+//     */
+
+//    private HashMap<String, String>[] getReplies(String reportid){
+//        final HashMap<String, String>[] replies;
+//        replies = new HashMap[200];
+//
+//        SessionManagement session;
+//        session = new SessionManagement(getApplicationContext());
+//
+//        HashMap<String, String> token = session.getUserToken();
+//
+//        String tkn = token.get("apiToken");
+//        // If the token is not set
+//        if(tkn.equals("")){
+//            //TODO error
+//        }
+//        String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
+//
+//        final Context currentContext = this;
+//        final ListActivity currentActivity = this;
+//
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+//                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        //handle response
+//                        if(response.has("replies")){
+//                            JSONArray rps = null;
+//                            try {
+//                                rps = response.getJSONArray("replies");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            for(int i=0;i<rps.length();i++){
+//                                setReplies(rps, i, replies);
+//                            }
+//                            // This creates the ListView from the reports
+//                            HashMap<String, String>[] properReply = new HashMap[rps.length()];
+//                            System.arraycopy(replies, 0, properReply, 0, rps.length());
+//                            if(replies.length == 15) {
+//                                raa = new ReplyArrayAdapter(currentContext, replies);
+//                                setListAdapter(raa);
+//                            }else{
+//                                final ReplyArrayAdapter adapter= new ReplyArrayAdapter(currentContext, properReply);
+//                                setListAdapter(adapter);
+//                                ListView listview = currentActivity.getListView();
+//                                listview.setSelection(0);
+//                            }
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // TODO Auto-generated method stub
+//
+//                    }
+//                });
+//        requestQueueSingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+//        return replies;
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
         String lats = getIntent().getExtras().getString("lat");
         String lons = getIntent().getExtras().getString("lon");
+
+        String reportid = getIntent().getExtras().getString("reportid");
 
         if(!lats.equals("nah") && !lons.equals("nah")){
             double lat = Double.parseDouble(lats);
@@ -123,6 +221,9 @@ public class ViewIncidentActivity extends FragmentActivity {
                 severityIcon.setImageResource(R.drawable.fourseverity);
                 break;
         }
+
+        //load replies? remember to call this method ya doof
+
     }
 
 
