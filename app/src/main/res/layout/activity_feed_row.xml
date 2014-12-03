@@ -12,14 +12,6 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="4dp" >
     </ImageView>
-
-    <TextView
-        android:id="@+id/report_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@+id/report_time"
-        android:textSize="20sp" >
-    </TextView>
     <TextView
         android:id="@+id/report_title"
         android:layout_width="wrap_content"
@@ -32,6 +24,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@+id/report_location"
+        android:textSize="20sp" >
+    </TextView>
+    <TextView
+        android:id="@+id/report_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@+id/report_time"
         android:textSize="20sp" >
     </TextView>
 </LinearLayout>

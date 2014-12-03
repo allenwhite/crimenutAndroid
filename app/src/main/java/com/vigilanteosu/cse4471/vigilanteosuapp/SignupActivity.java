@@ -107,7 +107,10 @@ public class SignupActivity extends Activity {
                                     getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE);
                             if (pref.getBoolean(SessionManagement.IS_LOGIN, false)) {
                                 // Staring MainActivity
-                                Intent i = new Intent(getApplicationContext(), FeedActivity.class);
+                                Toast.makeText(getApplicationContext(),
+                                        "Thanks for becoming a Vigilante! Please sign in",
+                                        Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                                 startActivity(i);
                                 finish();
                             } else {

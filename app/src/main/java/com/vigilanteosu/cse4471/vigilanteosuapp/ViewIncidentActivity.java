@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.gms.maps.*;
+
 
 public class ViewIncidentActivity extends FragmentActivity {
 
@@ -40,27 +42,27 @@ public class ViewIncidentActivity extends FragmentActivity {
                 googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                         R.id.mapView)).getMap();
 
-                LocationManager locMan = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-
-                Criteria crit = new Criteria();
-
-                Location loc = locMan.getLastKnownLocation(locMan.getBestProvider(crit, false));
-
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(
-                        lat,
-                        -lon)));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
                 /**
                  * If the map is still null after attempted initialisation,
                  * show an error to the user
                  */
                 if(null == googleMap) {
-                    Toast.makeText(getApplicationContext(),
-                            "Error creating map", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Error creating map", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (NullPointerException exception){
-            Log.e("mapApp", exception.toString());
+            Toast.makeText(getApplicationContext(),"somthing failed wit yo map", Toast.LENGTH_LONG).show();
+        }
+
+        if(null != googleMap){
+            Toast.makeText(getApplicationContext(),"we out hereeee", Toast.LENGTH_LONG).show();
+            googleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat, lon))
+                            .title("Marker")
+                            .draggable(true)
+            );
+
+            
         }
     }
 
