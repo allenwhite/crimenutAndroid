@@ -41,5 +41,14 @@
     <string name="textOSU">Text OSU Police</string>
     <string name="contacted">Authorities Have Been Contacted</string>
     <string name="moreReports">More Reports</string>
+    <string name="spinnertitle">How serious is this crime?</string>
 
+
+    <string-array name="severity_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>
