@@ -32,7 +32,7 @@ public class ViewIncidentActivity extends FragmentActivity {
 
     GoogleMap googleMap;
 
-    private void createMapView(double lon, double lat){
+    private void createMapView(double lon, double lat, String loc){
         /**
          * Catch the null pointer exception that
          * may be thrown when initialising the map
@@ -58,11 +58,16 @@ public class ViewIncidentActivity extends FragmentActivity {
             Toast.makeText(getApplicationContext(),"we out hereeee", Toast.LENGTH_LONG).show();
             googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
-                            .title("Marker")
+                            .title(loc)
                             .draggable(true)
             );
 
-            
+            CameraUpdate center=
+                    CameraUpdateFactory.newLatLng(new LatLng(lat,lon));
+            CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+
+            googleMap.moveCamera(center);
+            googleMap.animateCamera(zoom);
         }
     }
 
@@ -77,7 +82,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         if(!lats.equals("nah") && !lons.equals("nah")){
             double lat = Double.parseDouble(lats);
             double lon = Double.parseDouble(lons);
-            createMapView(lon,lat);
+            createMapView(lon,lat,getIntent().getExtras().getString("reportLocation"));
         }
 
         TextView title = (TextView)findViewById(R.id.report_title);
