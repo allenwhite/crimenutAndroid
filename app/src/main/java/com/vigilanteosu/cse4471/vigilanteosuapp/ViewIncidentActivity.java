@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +57,6 @@ public class ViewIncidentActivity extends FragmentActivity {
         }
 
         if(null != googleMap){
-            Toast.makeText(getApplicationContext(),"we out hereeee", Toast.LENGTH_LONG).show();
             googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(lat, lon))
                             .title(loc)
@@ -83,6 +84,13 @@ public class ViewIncidentActivity extends FragmentActivity {
             double lat = Double.parseDouble(lats);
             double lon = Double.parseDouble(lons);
             createMapView(lon,lat,getIntent().getExtras().getString("reportLocation"));
+        }else{
+            MapFragment mapFrag = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapView));
+
+            mapFrag.getView().setVisibility(View.INVISIBLE);
+            ViewGroup.LayoutParams params = mapFrag.getView().getLayoutParams();
+            params.height = 0;
+            mapFrag.getView().setLayoutParams(params);
         }
 
         TextView title = (TextView)findViewById(R.id.report_title);
