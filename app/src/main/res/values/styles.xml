@@ -9,27 +9,33 @@
         <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
         <item name="android:buttonStyle">@style/NormButton</item>
         <item name="android:editTextStyle">@style/NormTextField</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
     </style>
 
     <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/vigGray</item>
+        <item name="android:background">#3b3b3b</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText">
         <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- Default Button Styling -->
     <style name="NormButton" parent="android:style/Widget.Button">
         <item name="android:textSize">@dimen/large_text</item>
-        <item name="android:layout_marginBottom">20dip</item>
+        <item name="android:layout_marginBottom">20dp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/vigGray</item>
+        <item name="android:background">#3b3b3b</item>
         <item name="android:padding">10dp</item>
     </style>
 
     <!-- Default Text Field Styling -->
     <style name="NormTextField" parent="android:style/Widget.EditText">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">#FFFFFF</item>
         <item name="android:padding">10dp</item>
-        <item name="android:layout_marginBottom">10dip</item>
-        <item name="android:textSize">@dimen/med_text</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">15dp</item>
     </style>
 </resources>
