@@ -6,6 +6,7 @@
     <string name="contactAuth">Contact the authorities!</string>
     <string name="reportIncident">Report an incident</string>
     <string name="signup">Become a Vigilante!</string>
+    <string name="safeWithUs">Your identity is safe with us.</string>
     <string name="login">Log In</string>
     <string name="alreadyRegistered">Already Registered?</string>
     <string name="password">Enter Password</string>

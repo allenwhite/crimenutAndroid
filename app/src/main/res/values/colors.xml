@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="white" type="color">#FFFFFF</item>
+    <item name="vigGray" type="color">#3b3b3b</item>
+    <item name="black" type="color">#000000</item>
+
+    <integer-array name="androidcolors">
+        <item>@color/white</item>
+        <item>@color/vigGray</item>
+        <item>@color/black</item>
+    </integer-array>
+
+</resources>
