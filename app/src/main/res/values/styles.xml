@@ -9,10 +9,17 @@
         <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
         <item name="android:buttonStyle">@style/NormButton</item>
         <item name="android:editTextStyle">@style/NormTextField</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
     </style>
 
     <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#3b3b3b</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText">
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <!-- Default Button Styling -->
