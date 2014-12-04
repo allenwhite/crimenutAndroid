@@ -7,6 +7,7 @@
     <item name="maxRed" type="color">#ba1f0d</item>
     <item name="ltRed" type="color">#d07878</item>
     <item name="successGreen" type="color">#c4df9b</item>
+    <item name="ltGray" type="color">#9e9e9e</item>
 
     <integer-array name="androidcolors">
         <item>@color/white</item>
@@ -15,6 +16,7 @@
         <item>@color/maxRed</item>
         <item>@color/ltRed</item>
         <item>@color/successGreen</item>
+        <item>@color/ltGray</item>
     </integer-array>
 
 </resources>

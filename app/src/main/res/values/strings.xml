@@ -31,6 +31,7 @@
     <string name="title_activity_new_report_start">NewReportStartActivity</string>
     <string name="title_activity_view_incident">ViewIncidentActivity</string>
     <string name="description">Description</string>
+    <string name="replies">Replies</string>
     <string name="when">When</string>
     <string name="where">Where</string>
     <string name="type">Type</string>
