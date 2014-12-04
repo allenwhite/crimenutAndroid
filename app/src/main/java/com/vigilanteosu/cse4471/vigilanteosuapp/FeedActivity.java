@@ -159,14 +159,21 @@ public class FeedActivity extends ListActivity {
         }
         if(jsobj.has("lon")){
             try {
-                report.put("lon", Double.toString(jsobj.getDouble("lon")));
+                report.put("lon", jsobj.getString("lon"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         if(jsobj.has("lat")){
             try {
-                report.put("lat", Double.toString(jsobj.getDouble("lat")));
+                report.put("lat", jsobj.getString("lat"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(jsobj.has("reportid")){
+            try {
+                report.put("reportid", jsobj.getString("reportid"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -192,7 +199,7 @@ public class FeedActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Feed", "FeedActivity.onCreate()");
+        //Log.d("Feed", "FeedActivity.onCreate()");
 
         setContentView(R.layout.activity_feed);
 

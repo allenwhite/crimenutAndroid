@@ -1,7 +1,8 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#000000">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -41,16 +42,6 @@
             android:layout_alignTop="@+id/reportTitle"
             android:layout_toRightOf="@+id/reportTitle" />
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-            <!--android:text="@string/type"-->
-            <!--android:id="@+id/reportType"-->
-            <!--android:layout_marginTop="27dp"-->
-            <!--android:layout_below="@+id/reportTitle"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,7 +91,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/description"
             android:id="@+id/reportDescription"
-            android:layout_below="@+id/reportWhen"
+            android:layout_below="@+id/reportSeverity"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="24dp" />
@@ -117,12 +108,37 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Urgency"
+            android:id="@+id/reportSeverity"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/reportWhen"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_toEndOf="@+id/reportSeverity"
+            android:layout_alignTop="@+id/reportSeverity"
+            android:layout_toRightOf="@+id/reportSeverity"
+            android:id="@+id/reportSpinner"
+            android:entries="@array/severity_array"
+            android:prompt="@string/spinnertitle">
+        </Spinner>
+
+
         <!-- Signup button -->
         <Button android:id="@+id/btnSubmit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit"
-            android:layout_below="@+id/editText2"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/reportDescription"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
 

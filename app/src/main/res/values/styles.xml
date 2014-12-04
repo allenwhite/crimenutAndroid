@@ -3,10 +3,32 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:colorBackground">#000000</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+        <item name="android:buttonStyle">@style/NormButton</item>
+        <item name="android:editTextStyle">@style/NormTextField</item>
     </style>
 
     <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#3b3b3b</item>
+    </style>
+
+    <!-- Default Button Styling -->
+    <style name="NormButton" parent="android:style/Widget.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginBottom">20dip</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#3b3b3b</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <!-- Default Text Field Styling -->
+    <style name="NormTextField" parent="android:style/Widget.EditText">
         <item name="android:background">#FFFFFF</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginBottom">10dip</item>
+        <item name="android:textSize">15sp</item>
     </style>
 </resources>

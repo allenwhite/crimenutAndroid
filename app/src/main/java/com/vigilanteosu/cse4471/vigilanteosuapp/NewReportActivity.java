@@ -30,6 +30,8 @@ public class NewReportActivity extends Activity {
     // Email, password edittext
     EditText txtReportTitle, txtReportWhere, txtReportWhen, txtDescription;
 
+    Spinner sevSpinner;
+
     // submit button
     Button btnSubmit;
 
@@ -43,6 +45,7 @@ public class NewReportActivity extends Activity {
         txtReportWhere = (EditText) findViewById(R.id.reportWhereInput);
         txtReportWhen = (EditText) findViewById(R.id.reportWhenInput);
         txtDescription = (EditText) findViewById(R.id.editText2);
+        sevSpinner = (Spinner) findViewById(R.id.reportSpinner);
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
@@ -60,6 +63,8 @@ public class NewReportActivity extends Activity {
                 String reportWhen = txtReportWhen.getText().toString();//??????never used???????????optional
                 String reportDesc = txtDescription.getText().toString();
 
+                String reportSev = sevSpinner.getSelectedItem().toString();
+                int severity = Integer.parseInt(reportSev) - 1;
                 // Check if username, password is filled
                 if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0  && reportDesc.trim().length() > 0){
                     JSONObject reportObject = new JSONObject();
@@ -68,8 +73,8 @@ public class NewReportActivity extends Activity {
                         if(reportWhen.trim().length() > 0){
                             reportObject.put("time", reportWhen);
                         }
-                        reportObject.put("severity", 1);//where does severity come from?????????????
-                        reportObject.put("location", reportWhere);///drop pin???????????????????????
+                        reportObject.put("severity", severity);
+                        reportObject.put("location", reportWhere);
                         reportObject.put("description", reportDesc);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -127,7 +132,7 @@ public class NewReportActivity extends Activity {
                                 }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "I don't know what is happening.",
+                                Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
                                         Toast.LENGTH_LONG).show();
                             }
                         });
