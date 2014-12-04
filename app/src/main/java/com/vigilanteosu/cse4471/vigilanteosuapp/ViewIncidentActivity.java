@@ -1,5 +1,6 @@
 package com.vigilanteosu.cse4471.vigilanteosuapp;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,95 +81,109 @@ public class ViewIncidentActivity extends FragmentActivity {
     }
 
 
-//    private void setReplies(JSONArray rps, int i, HashMap<String, String>[] reports) {
-//        HashMap<String, String> report = new HashMap<String, String>();
-//        JSONObject jsobj = null;
-//        try {
-//            jsobj = (JSONObject)rps.get(i);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        if(jsobj.has("body")){
-//            try {
-//                report.put("body", jsobj.getString("body"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(jsobj.has("time")){
-//            try {
-//                report.put("time", jsobj.getString("time"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        reports[i] = report;
-//    }
+    private void setReplies(JSONArray rps, int i, HashMap<String, String>[] reports) {
+        HashMap<String, String> report = new HashMap<String, String>();
+        JSONObject jsobj = null;
+        try {
+            jsobj = (JSONObject)rps.get(i);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(jsobj.has("body")){
+            try {
+                report.put("body", jsobj.getString("body"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(jsobj.has("time")){
+            try {
+                report.put("time", jsobj.getString("time"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        reports[i] = report;
+    }
 
-//    /**
-//     * just spitballin here
-//      * @param reportid
-//     * @return
-//     */
+    private HashMap<String, String>[] getReplies(String reportid){
+        final HashMap<String, String>[] replies;
+        replies = new HashMap[200];
 
-//    private HashMap<String, String>[] getReplies(String reportid){
-//        final HashMap<String, String>[] replies;
-//        replies = new HashMap[200];
-//
-//        SessionManagement session;
-//        session = new SessionManagement(getApplicationContext());
-//
-//        HashMap<String, String> token = session.getUserToken();
-//
-//        String tkn = token.get("apiToken");
-//        // If the token is not set
-//        if(tkn.equals("")){
-//            //TODO error
-//        }
-//        String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
-//
-//        final Context currentContext = this;
-//        final ListActivity currentActivity = this;
-//
-//        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-//                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        //handle response
-//                        if(response.has("replies")){
-//                            JSONArray rps = null;
-//                            try {
-//                                rps = response.getJSONArray("replies");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            for(int i=0;i<rps.length();i++){
-//                                setReplies(rps, i, replies);
-//                            }
-//                            // This creates the ListView from the reports
-//                            HashMap<String, String>[] properReply = new HashMap[rps.length()];
-//                            System.arraycopy(replies, 0, properReply, 0, rps.length());
-//                            if(replies.length == 15) {
-//                                raa = new ReplyArrayAdapter(currentContext, replies);
-//                                setListAdapter(raa);
-//                            }else{
-//                                final ReplyArrayAdapter adapter= new ReplyArrayAdapter(currentContext, properReply);
-//                                setListAdapter(adapter);
-//                                ListView listview = currentActivity.getListView();
-//                                listview.setSelection(0);
-//                            }
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // TODO Auto-generated method stub
-//
-//                    }
-//                });
-//        requestQueueSingleton.getInstance(this).addToRequestQueue(jsObjRequest);
-//        return replies;
-//    }
+        SessionManagement session;
+        session = new SessionManagement(getApplicationContext());
+
+        HashMap<String, String> token = session.getUserToken();
+
+        String tkn = token.get("apiToken");
+        // If the token is not set
+        if(tkn.equals("")){
+            //TODO error
+        }
+        String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
+
+        final Context currentContext = this;
+        final Activity currentActivity = this;
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //handle response
+                        if(response.has("replies")){
+                            JSONArray rps = null;
+                            try {
+                                rps = response.getJSONArray("replies");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            for(int i=0;i<rps.length();i++){
+                                setReplies(rps, i, replies);
+                            }
+                            // This creates the ListView from the reports
+                            HashMap<String, String>[] properReply = new HashMap[rps.length()];
+                            System.arraycopy(replies, 0, properReply, 0, rps.length());
+
+                                final ReplyArrayAdapter adapter= new ReplyArrayAdapter(currentContext, properReply);
+                                ListView listview = (ListView)currentActivity.findViewById(R.id.list);
+                                listview.setAdapter(adapter);
+                                setListViewHeightBasedOnChildren(listview);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+        requestQueueSingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        return replies;
+    }
+
+
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,7 +242,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         }
 
         //load replies? remember to call this method ya doof
-
+        getReplies(reportid);
     }
 
 
