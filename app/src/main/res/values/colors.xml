@@ -4,11 +4,17 @@
     <item name="white" type="color">#FFFFFF</item>
     <item name="vigGray" type="color">#3b3b3b</item>
     <item name="black" type="color">#000000</item>
+    <item name="maxRed" type="color">#ba1f0d</item>
+    <item name="ltRed" type="color">#d07878</item>
+    <item name="successGreen" type="color">#c4df9b</item>
 
     <integer-array name="androidcolors">
         <item>@color/white</item>
         <item>@color/vigGray</item>
         <item>@color/black</item>
+        <item>@color/maxRed</item>
+        <item>@color/ltRed</item>
+        <item>@color/successGreen</item>
     </integer-array>
 
 </resources>

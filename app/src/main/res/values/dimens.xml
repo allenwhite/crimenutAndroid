@@ -5,6 +5,7 @@
     <dimen name="norm_screen_padding">20dp</dimen>
     <dimen name="label_text_margin">5dp</dimen>
     <dimen name="med_margin">10dp</dimen>
+    <dimen name="button_padding">30dp</dimen>
 
     <dimen name="small_text">10sp</dimen>
     <dimen name="med_text">15sp</dimen>
