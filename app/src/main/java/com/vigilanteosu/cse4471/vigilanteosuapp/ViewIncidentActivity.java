@@ -280,6 +280,9 @@ public class ViewIncidentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         String lats = getIntent().getExtras().getString("lat");
         String lons = getIntent().getExtras().getString("lon");
 
@@ -359,6 +362,10 @@ public class ViewIncidentActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case R.id.action_compose:
                 openCompose();
+                return true;
+            case android.R.id.home:
+                Intent myIntent = new Intent(getApplicationContext(), FeedActivity.class);
+                startActivityForResult(myIntent, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

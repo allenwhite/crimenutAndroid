@@ -57,7 +57,7 @@ public class FeedActivity extends ListActivity {
         SharedPreferences pref =
                 getSharedPreferences(SessionManagement.PREF_NAME,
                         MODE_PRIVATE);
-        String token = pref.getString("apiToken", "");
+        String token = pref.getString(SessionManagement.API_TOKEN, "");
         // If the token is not set
         if(token.equals("")){
             //TODO error
@@ -203,6 +203,8 @@ public class FeedActivity extends ListActivity {
 
         setContentView(R.layout.activity_feed);
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         session = new SessionManagement(getApplicationContext());
         session.checkLogin();
         final HashMap<String, String>[] reports = getReports(startReportUUID, null);
@@ -233,6 +235,9 @@ public class FeedActivity extends ListActivity {
             case R.id.action_compose:
                 openCompose();
                 return true;
+            case android.R.id.home:
+                Intent myIntent = new Intent(this, FeedActivity.class);
+                startActivity(myIntent);
             default:
                 return super.onOptionsItemSelected(item);
         }
