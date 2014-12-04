@@ -50,7 +50,7 @@ public class ReplyArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
         reportReply.setText(values.get(position).get("body"));
 
 
-        final Context currentContext = this.context;
+        //???????final Context currentContext = this.context;
 
         return rowView;
     }
