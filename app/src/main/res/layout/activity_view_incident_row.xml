@@ -8,6 +8,7 @@
         android:id="@+id/report_reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@+id/report_reply"
         android:textSize="20sp"
         android:textColor="#FFFFFF">

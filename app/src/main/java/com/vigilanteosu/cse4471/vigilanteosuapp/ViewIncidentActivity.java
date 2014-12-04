@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -41,6 +43,91 @@ public class ViewIncidentActivity extends FragmentActivity {
 
     GoogleMap googleMap;
     private ReplyArrayAdapter raa;
+
+    private String reportid;
+
+    public void postReply(final Intent intent){
+
+        EditText comment = (EditText) findViewById(R.id.replyBox);
+        String reply = comment.getText().toString();
+        final Context currentContext = this;
+
+        // Check if username, password is filled
+        if(reply.trim().length() > 0){
+            JSONObject replyObject = new JSONObject();
+            try {
+                replyObject.put("body", reply);
+                replyObject.put("reportid", reportid);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String replyUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports/reply?token=";
+
+            ///lets give this a try
+            SessionManagement session;
+            session = new SessionManagement(getApplicationContext());
+
+            HashMap<String, String> token = session.getUserToken();
+
+            String tkn = token.get("apiToken");
+
+            if(tkn.equals("")){
+                Toast.makeText(getApplicationContext(),
+                        "Are you even logged in, bro?",
+                        Toast.LENGTH_LONG).show();
+            }else {
+
+                replyUrl = replyUrl.concat(tkn);
+
+                JsonObjectRequest postObjRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        replyUrl,
+                        replyObject,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // handle response
+                                if (response.has("result")) {
+                                    try {
+                                        String result = response.getString("result");
+                                        if (result.equals("true")) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Your comment has been posted! Thanks for being a vigilante",
+                                                    Toast.LENGTH_LONG).show();
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Something went amiss posting your comment... please try again",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Failed to post your comment... please try again",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+                requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
+            }
+        }else{
+            // user didn't entered username or password
+            // Show alert asking him to enter the details
+            //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+            Toast.makeText(getApplicationContext(),
+                    "Post failed...\nPlease fill out all report details",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 
     private void createMapView(double lon, double lat, String loc){
         /**
@@ -176,9 +263,13 @@ public class ViewIncidentActivity extends FragmentActivity {
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
+        View listItem = listAdapter.getView(listAdapter.getCount()-1, null, listView);
+        listItem.measure(0, 0);
+        totalHeight += listItem.getMeasuredHeight();
+        totalHeight += listItem.getMeasuredHeight();
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount()));//-1?
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
@@ -192,7 +283,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         String lats = getIntent().getExtras().getString("lat");
         String lons = getIntent().getExtras().getString("lon");
 
-        String reportid = getIntent().getExtras().getString("reportid");
+        reportid = getIntent().getExtras().getString("reportid");
 
         if(!lats.equals("nah") && !lons.equals("nah")){
             double lat = Double.parseDouble(lats);
@@ -236,10 +327,22 @@ public class ViewIncidentActivity extends FragmentActivity {
             case 4:
                 severityIcon.setImageResource(R.drawable.fourseverity);
                 break;
+            default:
+                severityIcon.setImageResource(R.drawable.zeroseverity);
+                break;
         }
 
         //load replies? remember to call this method ya doof
         getReplies(reportid);
+
+        Button btnSubmit = (Button)findViewById(R.id.btnPostReply);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                postReply(getIntent());
+
+            }
+        });
     }
 
 

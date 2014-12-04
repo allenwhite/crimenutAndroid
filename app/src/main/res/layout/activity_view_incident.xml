@@ -18,6 +18,9 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
+
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             >
             <fragment
                 android:id="@+id/mapView"
@@ -73,7 +76,18 @@
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF">
             </ListView>
-            
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/replyBox"
+                android:layout_marginTop="20dp"
+                android:inputType="text"/>
+            <Button android:id="@+id/btnPostReply"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Comment"
+                />
+
 
         </LinearLayout>
 
