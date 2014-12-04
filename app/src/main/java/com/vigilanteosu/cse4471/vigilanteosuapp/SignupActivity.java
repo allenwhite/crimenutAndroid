@@ -84,7 +84,7 @@ public class SignupActivity extends Activity {
                             SharedPreferences.Editor prefEdit =
                                     getSharedPreferences(SessionManagement.PREF_NAME,
                                             MODE_PRIVATE).edit();
-                            Log.d("LoginActivity: response", response.toString());
+                            Log.d("SignupActivity: response", response.toString());
                             JSONObject responseUser = null;
                             try {
                                 responseUser = response.getJSONObject("user");

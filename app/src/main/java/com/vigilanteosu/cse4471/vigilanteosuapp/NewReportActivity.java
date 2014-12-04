@@ -1,9 +1,11 @@
 package com.vigilanteosu.cse4471.vigilanteosuapp;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +42,7 @@ public class NewReportActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_report);
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         txtReportTitle = (EditText) findViewById(R.id.reportTitleInput);
         txtReportWhere = (EditText) findViewById(R.id.reportWhereInput);
@@ -48,7 +51,6 @@ public class NewReportActivity extends Activity {
         sevSpinner = (Spinner) findViewById(R.id.reportSpinner);
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
-
 
         final Context currentContext = this;
 
@@ -165,6 +167,10 @@ public class NewReportActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_compose:
                 openCompose();
+                return true;
+            case android.R.id.home:
+                Intent myIntent = new Intent(getApplicationContext(), FeedActivity.class);
+                startActivityForResult(myIntent, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

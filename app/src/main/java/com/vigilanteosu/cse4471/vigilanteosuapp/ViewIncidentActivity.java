@@ -1,5 +1,6 @@
 package com.vigilanteosu.cse4471.vigilanteosuapp;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +43,91 @@ public class ViewIncidentActivity extends FragmentActivity {
 
     GoogleMap googleMap;
     private ReplyArrayAdapter raa;
+
+    private String reportid;
+
+    public void postReply(final Intent intent){
+
+        EditText comment = (EditText) findViewById(R.id.replyBox);
+        String reply = comment.getText().toString();
+        final Context currentContext = this;
+
+        // Check if username, password is filled
+        if(reply.trim().length() > 0){
+            JSONObject replyObject = new JSONObject();
+            try {
+                replyObject.put("body", reply);
+                replyObject.put("reportid", reportid);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String replyUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports/reply?token=";
+
+            ///lets give this a try
+            SessionManagement session;
+            session = new SessionManagement(getApplicationContext());
+
+            HashMap<String, String> token = session.getUserToken();
+
+            String tkn = token.get("apiToken");
+
+            if(tkn.equals("")){
+                Toast.makeText(getApplicationContext(),
+                        "Are you even logged in, bro?",
+                        Toast.LENGTH_LONG).show();
+            }else {
+
+                replyUrl = replyUrl.concat(tkn);
+
+                JsonObjectRequest postObjRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        replyUrl,
+                        replyObject,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // handle response
+                                if (response.has("result")) {
+                                    try {
+                                        String result = response.getString("result");
+                                        if (result.equals("true")) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Your comment has been posted! Thanks for being a vigilante",
+                                                    Toast.LENGTH_LONG).show();
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Something went amiss posting your comment... please try again",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Failed to post your comment... please try again",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+                requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
+            }
+        }else{
+            // user didn't entered username or password
+            // Show alert asking him to enter the details
+            //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+            Toast.makeText(getApplicationContext(),
+                    "Post failed...\nPlease fill out all report details",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 
     private void createMapView(double lon, double lat, String loc){
         /**
@@ -79,104 +168,125 @@ public class ViewIncidentActivity extends FragmentActivity {
     }
 
 
-//    private void setReplies(JSONArray rps, int i, HashMap<String, String>[] reports) {
-//        HashMap<String, String> report = new HashMap<String, String>();
-//        JSONObject jsobj = null;
-//        try {
-//            jsobj = (JSONObject)rps.get(i);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        if(jsobj.has("body")){
-//            try {
-//                report.put("body", jsobj.getString("body"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(jsobj.has("time")){
-//            try {
-//                report.put("time", jsobj.getString("time"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        reports[i] = report;
-//    }
+    private void setReplies(JSONArray rps, int i, HashMap<String, String>[] reports) {
+        HashMap<String, String> report = new HashMap<String, String>();
+        JSONObject jsobj = null;
+        try {
+            jsobj = (JSONObject)rps.get(i);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(jsobj.has("body")){
+            try {
+                report.put("body", jsobj.getString("body"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(jsobj.has("time")){
+            try {
+                report.put("time", jsobj.getString("time"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        reports[i] = report;
+    }
 
-//    /**
-//     * just spitballin here
-//      * @param reportid
-//     * @return
-//     */
+    private HashMap<String, String>[] getReplies(String reportid){
+        final HashMap<String, String>[] replies;
+        replies = new HashMap[200];
 
-//    private HashMap<String, String>[] getReplies(String reportid){
-//        final HashMap<String, String>[] replies;
-//        replies = new HashMap[200];
-//
-//        SessionManagement session;
-//        session = new SessionManagement(getApplicationContext());
-//
-//        HashMap<String, String> token = session.getUserToken();
-//
-//        String tkn = token.get("apiToken");
-//        // If the token is not set
-//        if(tkn.equals("")){
-//            //TODO error
-//        }
-//        String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
-//
-//        final Context currentContext = this;
-//        final ListActivity currentActivity = this;
-//
-//        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-//                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        //handle response
-//                        if(response.has("replies")){
-//                            JSONArray rps = null;
-//                            try {
-//                                rps = response.getJSONArray("replies");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            for(int i=0;i<rps.length();i++){
-//                                setReplies(rps, i, replies);
-//                            }
-//                            // This creates the ListView from the reports
-//                            HashMap<String, String>[] properReply = new HashMap[rps.length()];
-//                            System.arraycopy(replies, 0, properReply, 0, rps.length());
-//                            if(replies.length == 15) {
-//                                raa = new ReplyArrayAdapter(currentContext, replies);
-//                                setListAdapter(raa);
-//                            }else{
-//                                final ReplyArrayAdapter adapter= new ReplyArrayAdapter(currentContext, properReply);
-//                                setListAdapter(adapter);
-//                                ListView listview = currentActivity.getListView();
-//                                listview.setSelection(0);
-//                            }
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // TODO Auto-generated method stub
-//
-//                    }
-//                });
-//        requestQueueSingleton.getInstance(this).addToRequestQueue(jsObjRequest);
-//        return replies;
-//    }
+        SessionManagement session;
+        session = new SessionManagement(getApplicationContext());
+
+        HashMap<String, String> token = session.getUserToken();
+
+        String tkn = token.get("apiToken");
+        // If the token is not set
+        if(tkn.equals("")){
+            //TODO error
+        }
+        String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
+
+        final Context currentContext = this;
+        final Activity currentActivity = this;
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //handle response
+                        if(response.has("replies")){
+                            JSONArray rps = null;
+                            try {
+                                rps = response.getJSONArray("replies");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            for(int i=0;i<rps.length();i++){
+                                setReplies(rps, i, replies);
+                            }
+                            // This creates the ListView from the reports
+                            HashMap<String, String>[] properReply = new HashMap[rps.length()];
+                            System.arraycopy(replies, 0, properReply, 0, rps.length());
+
+                                final ReplyArrayAdapter adapter= new ReplyArrayAdapter(currentContext, properReply);
+                                ListView listview = (ListView)currentActivity.findViewById(R.id.list);
+                                listview.setAdapter(adapter);
+                                setListViewHeightBasedOnChildren(listview);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+        requestQueueSingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        return replies;
+    }
+
+
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        View listItem = listAdapter.getView(listAdapter.getCount()-1, null, listView);
+        listItem.measure(0, 0);
+        totalHeight += listItem.getMeasuredHeight();
+        totalHeight += listItem.getMeasuredHeight();
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount()));//-1?
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_incident);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         String lats = getIntent().getExtras().getString("lat");
         String lons = getIntent().getExtras().getString("lon");
 
-        String reportid = getIntent().getExtras().getString("reportid");
+        reportid = getIntent().getExtras().getString("reportid");
 
         if(!lats.equals("nah") && !lons.equals("nah")){
             double lat = Double.parseDouble(lats);
@@ -220,10 +330,22 @@ public class ViewIncidentActivity extends FragmentActivity {
             case 4:
                 severityIcon.setImageResource(R.drawable.fourseverity);
                 break;
+            default:
+                severityIcon.setImageResource(R.drawable.zeroseverity);
+                break;
         }
 
         //load replies? remember to call this method ya doof
+        getReplies(reportid);
 
+        Button btnSubmit = (Button)findViewById(R.id.btnPostReply);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                postReply(getIntent());
+
+            }
+        });
     }
 
 
@@ -240,6 +362,10 @@ public class ViewIncidentActivity extends FragmentActivity {
         switch (item.getItemId()) {
             case R.id.action_compose:
                 openCompose();
+                return true;
+            case android.R.id.home:
+                Intent myIntent = new Intent(getApplicationContext(), FeedActivity.class);
+                startActivityForResult(myIntent, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

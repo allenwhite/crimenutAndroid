@@ -14,6 +14,9 @@ public class NewReportStartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_report_start);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
 
@@ -30,6 +33,10 @@ public class NewReportStartActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_compose:
                 openCompose();
+                return true;
+            case android.R.id.home:
+                Intent myIntent = new Intent(getApplicationContext(), FeedActivity.class);
+                startActivityForResult(myIntent, 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

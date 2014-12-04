@@ -47,10 +47,15 @@ public class ReplyArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.activity_view_incident_row, parent, false);
         final TextView reportReply = (TextView) rowView.findViewById(R.id.report_reply);
-        reportReply.setText(values.get(position).get("body"));
+        try{
+            reportReply.setText(values.get(position).get("body"));
+        }catch (Exception e){
+            reportReply.setText("No comments yet for this incident");
+        }
 
 
-        final Context currentContext = this.context;
+
+        //???????final Context currentContext = this.context;
 
         return rowView;
     }

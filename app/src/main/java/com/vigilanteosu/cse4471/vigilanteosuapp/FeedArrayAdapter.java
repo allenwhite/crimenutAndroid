@@ -80,6 +80,9 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
             case 4:
                 severityIcon.setImageResource(R.drawable.fourseverity);
                 break;
+            default:
+                severityIcon.setImageResource(R.drawable.zeroseverity);
+                break;
         }
 
         final Context currentContext = this.context;
