@@ -10,6 +10,7 @@
         <item name="android:buttonStyle">@style/NormButton</item>
         <item name="android:editTextStyle">@style/NormTextField</item>
         <item name="android:actionMenuTextColor">@color/white</item>
+        <!--<item name="android:spinnerStyle">@style/NormSpinner</item>-->
     </style>
 
     <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
@@ -37,5 +38,12 @@
         <item name="android:padding">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="NormSpinner" parent="@android:style/Widget.Holo.Light.DropDownItem.Spinner">
+        <item name="android:background">@color/ltRed</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:spinnerMode">dialog</item>
+
     </style>
 </resources>

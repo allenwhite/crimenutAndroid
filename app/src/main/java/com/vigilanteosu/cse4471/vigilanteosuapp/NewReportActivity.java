@@ -46,7 +46,7 @@ public class NewReportActivity extends Activity {
 
         txtReportTitle = (EditText) findViewById(R.id.reportTitleInput);
         txtReportWhere = (EditText) findViewById(R.id.reportWhereInput);
-        txtReportWhen = (EditText) findViewById(R.id.reportWhenInput);
+        //txtReportWhen = (EditText) findViewById(R.id.reportWhenInput);
         txtDescription = (EditText) findViewById(R.id.editText2);
         sevSpinner = (Spinner) findViewById(R.id.reportSpinner);
 
