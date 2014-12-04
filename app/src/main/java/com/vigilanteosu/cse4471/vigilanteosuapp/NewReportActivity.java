@@ -30,7 +30,7 @@ import java.util.HashMap;
 public class NewReportActivity extends Activity {
 
     // Email, password edittext
-    EditText txtReportTitle, txtReportWhere, txtReportWhen, txtDescription;
+    EditText txtReportTitle, txtReportWhere, txtDescription;
 
     Spinner sevSpinner;
 
@@ -46,7 +46,6 @@ public class NewReportActivity extends Activity {
 
         txtReportTitle = (EditText) findViewById(R.id.reportTitleInput);
         txtReportWhere = (EditText) findViewById(R.id.reportWhereInput);
-        //txtReportWhen = (EditText) findViewById(R.id.reportWhenInput);
         txtDescription = (EditText) findViewById(R.id.editText2);
         sevSpinner = (Spinner) findViewById(R.id.reportSpinner);
 
@@ -62,7 +61,7 @@ public class NewReportActivity extends Activity {
 
                 String reportTitle = txtReportTitle.getText().toString();
                 String reportWhere = txtReportWhere.getText().toString();
-                String reportWhen = txtReportWhen.getText().toString();//??????never used???????????optional
+
                 String reportDesc = txtDescription.getText().toString();
 
                 String reportSev = sevSpinner.getSelectedItem().toString();
@@ -72,9 +71,7 @@ public class NewReportActivity extends Activity {
                     JSONObject reportObject = new JSONObject();
                     try {
                         reportObject.put("title", reportTitle);
-                        if(reportWhen.trim().length() > 0){
-                            reportObject.put("time", reportWhen);
-                        }
+
                         reportObject.put("severity", severity);
                         reportObject.put("location", reportWhere);
                         reportObject.put("description", reportDesc);
