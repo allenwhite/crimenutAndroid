@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dip"
+    android:padding="20dip"
     android:background="#000000">
 
     <!-- Email Label -->
@@ -12,47 +12,42 @@
         android:layout_height="wrap_content"
         android:text="@string/username"
         android:singleLine="true"
-        android:layout_marginBottom="5dip"
-        android:textColor="#FFFFFF"/>
+        android:layout_marginBottom="5dip"/>
 
     <!-- Email input text -->
     <EditText android:id="@+id/txtUsername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dip"
         android:inputType="text"
-        android:textColor="#FFFFFF"/>
+        android:layout_marginBottom="10dp"/>
 
     <!-- Password Label -->
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/password"
-        android:layout_marginBottom="5dip"
-        android:textColor="#FFFFFF"/>
+        android:layout_marginBottom="5dip"/>
 
     <!-- Password input text -->
     <EditText android:id="@+id/txtPassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dip"
         android:inputType="textPassword"
         android:singleLine="true"
-        android:textColor="#FFFFFF"/>
+        android:layout_marginBottom="30dp"/>
 
     <!-- Login button -->
     <Button android:id="@+id/btnLogin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:textColor="#FFFFFF"/>
+        android:layout_marginBottom="20dp"
+        android:text="@string/login"/>
 
     <!-- Signup button -->
     <Button android:id="@+id/btnSignup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/signup"
-        android:onClick="openSignup"
-        android:textColor="#FFFFFF"/>
+        android:onClick="openSignup"/>
 
 </LinearLayout>
