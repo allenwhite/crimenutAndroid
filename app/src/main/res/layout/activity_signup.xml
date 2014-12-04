@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dip"
-    android:background="#000000"
+    android:padding="@dimen/norm_screen_padding"
+    android:background="@color/black"
     tools:context="com.cse4471.allen.vigilanteosu.SignupActivity">
 
     <!-- Email Label -->
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/createUsername"
         android:singleLine="true"
-        android:layout_marginBottom="5dip"/>
+        android:layout_marginBottom="@dimen/label_text_margin"/>
 
     <!-- Email input text -->
     <EditText android:id="@+id/txtUsername"
@@ -27,7 +27,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/createPassword"
-        android:layout_marginBottom="5dip"/>
+        android:layout_marginBottom="@dimen/label_text_margin"/>
 
     <!-- Password input text -->
     <EditText android:id="@+id/txtPassword"
@@ -50,6 +50,15 @@
         android:layout_height="wrap_content"
         android:text="@string/alreadyRegistered"
         android:onClick="openLogin"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/safeWithUs"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:layout_marginBottom="5dip"/>
 
 
 </LinearLayout>
