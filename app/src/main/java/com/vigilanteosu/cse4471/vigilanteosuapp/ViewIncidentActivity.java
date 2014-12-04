@@ -106,12 +106,6 @@ public class ViewIncidentActivity extends FragmentActivity {
         reports[i] = report;
     }
 
-    /**
-     * just spitballin here
-      * @param reportid
-     * @return
-     */
-
     private HashMap<String, String>[] getReplies(String reportid){
         final HashMap<String, String>[] replies;
         replies = new HashMap[200];
@@ -129,7 +123,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
 
         final Context currentContext = this;
-        final Activity currentActivity = this;///////////////////////////////////changeddddd
+        final Activity currentActivity = this;
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -143,7 +137,6 @@ public class ViewIncidentActivity extends FragmentActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Toast.makeText(getApplicationContext(), Integer.toString(rps.length()),Toast.LENGTH_LONG).show();
                             for(int i=0;i<rps.length();i++){
                                 setReplies(rps, i, replies);
                             }
