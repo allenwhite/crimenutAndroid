@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Vigilante OSU</string>
+    <string name="app_name">Vigilante</string>
     <string name="hello_world">Hello world!</string>
     <string name="contactAuth">Contact the authorities!</string>
     <string name="reportIncident">Report an incident</string>

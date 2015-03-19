@@ -1,13 +1,10 @@
 package com.vigilanteosu.cse4471.vigilanteosuapp;
 
-import android.app.ActionBar;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +56,8 @@ public class NewReportActivity extends Activity {
             public void onClick(View arg0) {
                 // Get report details from EditText, spinner
 
+                btnSubmit.setEnabled(false);
+
                 String reportTitle = txtReportTitle.getText().toString();
                 String reportWhere = txtReportWhere.getText().toString();
 
@@ -68,6 +67,9 @@ public class NewReportActivity extends Activity {
                 int severity = Integer.parseInt(reportSev) - 1;
                 // Check if username, password is filled
                 if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0  && reportDesc.trim().length() > 0){
+
+
+
                     JSONObject reportObject = new JSONObject();
                     try {
                         reportObject.put("title", reportTitle);
@@ -132,8 +134,8 @@ public class NewReportActivity extends Activity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
-                                        Toast.LENGTH_LONG).show();
-                            }
+                                            Toast.LENGTH_LONG).show();
+                                }
                         });
                         requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
                     }
@@ -144,7 +146,8 @@ public class NewReportActivity extends Activity {
                     Toast.makeText(getApplicationContext(),
                             "Post failed...\nPlease fill out all report details",
                             Toast.LENGTH_LONG).show();
-            }
+                }
+                btnSubmit.setEnabled(true);
             }
         });
 

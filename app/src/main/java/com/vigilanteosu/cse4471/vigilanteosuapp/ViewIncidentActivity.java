@@ -48,6 +48,9 @@ public class ViewIncidentActivity extends FragmentActivity {
 
     public void postReply(final Intent intent){
 
+        Button btnSubmit = (Button)findViewById(R.id.btnPostReply);
+        btnSubmit.setEnabled(false);
+
         EditText comment = (EditText) findViewById(R.id.replyBox);
         String reply = comment.getText().toString();
         final Context currentContext = this;
@@ -127,6 +130,7 @@ public class ViewIncidentActivity extends FragmentActivity {
                     "Post failed...\nPlease fill out all report details",
                     Toast.LENGTH_LONG).show();
         }
+        btnSubmit.setEnabled(true);
     }
 
     private void createMapView(double lon, double lat, String loc){

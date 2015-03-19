@@ -101,11 +101,19 @@ public class LoginActivity extends Activity {
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+
                                         prefEdit.putBoolean(SessionManagement.IS_LOGIN, true);
+
+
                                     } else {
                                         prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
                                     }
-                                    prefEdit.apply();
+                                    prefEdit.commit();
+                                    //////
+                                    Context context = getApplicationContext();
+                                    GcmRegister register = new GcmRegister();
+                                    register.sendRegistrationIdToBackend(context);
+
                                     SharedPreferences pref =
                                             getSharedPreferences(SessionManagement.PREF_NAME,
                                                     MODE_PRIVATE);

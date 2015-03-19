@@ -39,6 +39,9 @@ public class SessionManagement {
     // API Token
     public static final String API_TOKEN = "apiToken";
 
+    //GCM Token
+    public static final String PROPERTY_REG_ID = "registration_id";
+
     // Constructor
     public SessionManagement(Context context){
         this._context = context;
@@ -145,5 +148,24 @@ public class SessionManagement {
         Log.d("isLoggedIn",
                 (pref.contains(IS_LOGIN) ? Boolean.toString(pref.getBoolean(IS_LOGIN, false)) : "Prefs has no login status"));
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+
+    /**
+     * Get stored session data for token
+     * */
+    public String getUserGCMToken(){
+        // return usertoken for gcm api
+        return pref.getString(PROPERTY_REG_ID, null);
+    }
+
+
+    /**
+     * Get stored session data for token
+     * */
+    public void setUserGCMToken(String regid){
+        // set usertoken for gcm api
+        editor.putString(PROPERTY_REG_ID, regid);
+        editor.commit();
     }
 }

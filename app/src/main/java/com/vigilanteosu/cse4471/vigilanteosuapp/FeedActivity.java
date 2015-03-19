@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +34,13 @@ public class FeedActivity extends ListActivity {
     private final String startReportUUID = "00000000-0000-0000-0000-000000000000";
     private FeedArrayAdapter faa;
     SessionManagement session;
+
+
+    /****************************************/
+
+    Context context;
+    /****************************************/
+
     /* WE NEED BUTTONS TO GET TO THE OTHER SCREEN... ALSO MIGHT BE OF VALUE TO CHECK THAT
     THE TOKEN IS VALID (METHOD DNE RN THO)*/
 
@@ -216,6 +222,14 @@ public class FeedActivity extends ListActivity {
                 getReports(reports[reports.length - 1].get("reportid"), reports);
             }
         });
+
+        context = getApplicationContext();
+        GcmRegister register = new GcmRegister();
+        register.beginToRegister(context);
+
+//        final SharedPreferences prefs = register.getGCMPreferences(context);
+//        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+
     }
 
 
