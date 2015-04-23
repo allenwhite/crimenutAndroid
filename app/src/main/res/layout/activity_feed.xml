@@ -3,13 +3,18 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/norm_screen_padding"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     tools:context=".FeedActivity"
     android:background="@color/black">
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@color/ltGray"
+        android:dividerHeight="1dp"
         android:layout_marginBottom="@dimen/med_margin">
     </ListView>
 

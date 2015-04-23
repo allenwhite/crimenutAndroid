@@ -2,16 +2,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="@dimen/norm_screen_padding"
     android:background="@color/black">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/norm_screen_padding"
+        android:paddingLeft="@dimen/norm_screen_padding"
+        android:paddingRight="@dimen/norm_screen_padding"
         tools:context="com.cse4471.allen.vigilanteosu.ViewIncidentActivity"
-        android:background="@color/vigGray">
+        android:background="@color/black">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -23,26 +23,16 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/severity_icon"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_alignParentLeft="true">
-                </ImageView>
                 <TextView
                     android:id="@+id/report_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@+id/report_title"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold"
+                    android:textSize="30sp"
                     android:ellipsize="end"
-                    android:textAllCaps="true"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:layout_alignTop="@+id/severity_icon"
-                    android:layout_toRightOf="@+id/severity_icon">
+                    android:maxLines="2"
+                    android:gravity="center"
+                    android:layout_marginTop="15dp">
                 </TextView>
                 <TextView
                     android:id="@+id/report_time"
@@ -51,7 +41,8 @@
                     android:text="@+id/report_time"
                     android:textSize="@dimen/small_text"
                     android:layout_alignParentRight="true"
-                    >
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp">
                 </TextView>
              </RelativeLayout>
             <TextView
@@ -60,40 +51,52 @@
                 android:layout_height="wrap_content"
                 android:text="@+id/report_location"
                 android:textSize="@dimen/med_text"
-                android:layout_marginBottom="20dp"
-                >
+                android:layout_marginTop="10dp">
             </TextView>
+            <Button android:id="@+id/btnSpam"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Report as spam"
+                android:textSize="@dimen/med_text"
+                android:background="@color/maxRed"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="@string/description"
+                android:text="DESCRIPTION"
                 android:textSize="@dimen/med_text"
+                android:layout_marginTop="20dp"
                 android:textAllCaps="true"/>
             <TextView
                 android:id="@+id/report_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@+id/report_time"
-                android:textSize="@dimen/large_text">
+                android:text="@+id/report_desc"
+                android:textSize="@dimen/med_text"
+                android:layout_marginTop="10dp">
             </TextView>
             <fragment
                 android:id="@+id/mapView"
                 android:name="com.google.android.gms.maps.MapFragment"
                 android:layout_width="fill_parent"
-                android:layout_height="256dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"/>
 
             <!-- replies -->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="@string/replies"
+                android:text="COMMENTS"
                 android:textSize="@dimen/med_text"
+                android:layout_marginTop="20dp"
                 android:textAllCaps="true"/>
             <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@color/ltGray">
             </ListView>
             <EditText
@@ -102,15 +105,17 @@
                 android:id="@+id/replyBox"
                 android:layout_marginTop="20dp"
                 android:inputType="text"
-                android:padding="20dp"/>
+                android:padding="20dp"
+                android:hint="Add a comment..."/>
             <Button android:id="@+id/btnPostReply"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Post Comment"
+                android:textSize="@dimen/med_text"
                 android:background="@color/ltRed"
-                android:textAllCaps="true"
                 android:layout_marginTop="20dp"
-                android:padding="10dp"
+                android:layout_marginBottom="20dp"
+                android:padding="5dp"
                 />
 
 

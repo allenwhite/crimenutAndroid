@@ -216,9 +216,10 @@ public class GcmRegister {
 
 
             String url = registerUrl + tkn + "&gcm=" + gcmtoken;
+            JSONObject nullJson = null;
 
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+                    (Request.Method.POST, url, nullJson, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             //handle response

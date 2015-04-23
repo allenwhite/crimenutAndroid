@@ -11,10 +11,13 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         tools:context="com.cse4471.allen.vigilanteosu.NewReportActivity">
 
         <!-- title -->
         <TextView
+            android:id="@+id/reportHeader"
             android:text="@string/reportIncident"
             android:textAllCaps="true"
             android:layout_width="wrap_content"
@@ -22,110 +25,69 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
-            android:id="@+id/reportHeader"
             android:textSize="@dimen/large_text"
             />
 
-        <!-- title -->
-        <TextView
-            android:text="@string/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/reportTitle"
-            android:layout_below="@+id/reportHeader"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="38dp"
-            android:textSize="@dimen/med_text"
-            android:width="80dp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/reportTitleInput"
-            android:ems="10"
-            android:layout_toEndOf="@+id/reportWhere"
-            android:layout_alignTop="@+id/reportTitle"
-            android:layout_toRightOf="@+id/reportTitle" />
-
-        <!-- Where -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/where"
-            android:id="@+id/reportWhere"
-            android:layout_marginTop="35dp"
-            android:layout_below="@+id/reportTitle"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="@dimen/med_text"
-            android:width="80dp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:ems="10"
-            android:id="@+id/reportWhereInput"
-            android:layout_toEndOf="@+id/reportWhere"
-            android:layout_alignTop="@+id/reportWhere"
-            android:layout_toRightOf="@+id/reportWhere" />
-
-        <!-- When
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/when"
-            android:id="@+id/reportWhen"
-            android:layout_marginTop="39dp"
-            android:layout_below="@+id/reportWhere"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/reportWhenInput"
-            android:layout_toEndOf="@+id/reportWhen"
-            android:layout_alignTop="@+id/reportWhen"
-            android:layout_toRightOf="@+id/reportWhen" />
-            -->
-
         <!--description -->
         <TextView
+            android:id="@+id/reportDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/description"
-            android:id="@+id/reportDescription"
-            android:layout_below="@+id/reportSeverity"
+            android:layout_below="@+id/reportHeader"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="24dp"
             android:textSize="@dimen/med_text"/>
 
         <EditText
+            android:id="@+id/editText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editText2"
-            android:layout_below="@+id/reportDescription"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="80dp"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:layout_alignTop="@+id/reportDescription"
+            android:layout_toEndOf="@+id/reportDescription"
+            android:layout_toRightOf="@+id/reportDescription"
+            android:layout_marginLeft="20dp"
             android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
-        <!-- severity -->
+        <!-- Where -->
         <TextView
+            android:id="@+id/reportWhere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Urgency"
-            android:id="@+id/reportSeverity"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/where"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/editText2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="@dimen/med_text"
+            android:width="80dp"/>
+
+        <EditText
+            android:id="@+id/reportWhereInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
+            android:ems="10"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:layout_alignTop="@+id/reportWhere"
+            android:layout_alignLeft="@+id/editText2"/>
+
+
+
+
+        <!-- when -->
+        <TextView
+            android:id="@+id/reportDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="When"
             android:layout_marginTop="40dp"
             android:layout_below="@+id/reportWhere"
             android:layout_alignParentLeft="true"
@@ -133,26 +95,95 @@
             android:textSize="@dimen/med_text"
             android:width="80dp"/>
 
-        <Spinner
-            android:layout_width="wrap_content"
+
+        <LinearLayout android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_toEndOf="@+id/reportSeverity"
-            android:layout_alignTop="@+id/reportSeverity"
-            android:layout_toRightOf="@+id/reportSeverity"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_below="@+id/reportDate"
+            android:id="@+id/spinners">
+            <DatePicker
+                android:id="@+id/dateSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleY="0.56"
+                android:scaleX="0.7"
+                android:padding="0dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginLeft="-40dp"
+                android:layout_marginRight="-40dp"
+
+                android:background="@color/black"
+                android:calendarViewShown="false"
+
+                android:startYear="2015">
+            </DatePicker>
+
+
+
+            <TimePicker
+                android:id="@+id/timeSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleY="0.56"
+                android:scaleX="0.7"
+                android:padding="0dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginLeft="-40dp"
+                android:layout_marginRight="-40dp"
+
+                android:background="@color/black"
+                >
+            </TimePicker>
+        </LinearLayout>
+
+        <!--android:layout_below="@+id/dateSpinner"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+
+
+
+
+        <!-- subject -->
+        <TextView
+            android:id="@+id/reportSeverity"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="What happened"
+            android:layout_below="@+id/spinners"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="@dimen/med_text"
+            android:width="80dp"/>
+
+        <Spinner
             android:id="@+id/reportSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/reportSeverity"
             android:entries="@array/severity_array"
+            android:background="@color/vigGray"
+            android:popupBackground="@color/vigGray"
+            android:dropDownVerticalOffset="-40dp"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
             android:prompt="@string/spinnertitle">
         </Spinner>
 
 
-        <!-- Signup button -->
+        <!-- post button -->
         <Button android:id="@+id/btnSubmit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit"
-            android:layout_marginTop="80dp"
-            android:layout_below="@+id/reportDescription"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/reportSpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textAllCaps="true"

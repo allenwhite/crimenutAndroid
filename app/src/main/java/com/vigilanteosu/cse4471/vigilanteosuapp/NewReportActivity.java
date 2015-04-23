@@ -5,12 +5,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,18 +27,40 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 
 public class NewReportActivity extends Activity {
 
-    // Email, password edittext
-    EditText txtReportTitle, txtReportWhere, txtDescription;
+    /* NEED LAT AND LON,
+    *
+    * IMPLEMENT SUBJECT CODE
+    *
+    * PERPS {}
+    *
+    * OFFENSES {}
+    *
+    * PROPERTY {}
+    *
+    * */
 
+    // title, location (address), description, subject code is spinner
+    EditText txtReportWhere, txtDescription;
     Spinner sevSpinner;
-
+    DatePicker datePicker;
+    TimePicker timePicker;
     // submit button
     Button btnSubmit;
+
+    String[] pickerData = {"Theft", "Property Damage", "Burglary","Assault","Menacing", "Vandalism","Robbery","Other"};
+    String[] subjectCodes = {"115",   "551",            "6969",     "254",     "255",     "554",     "450",    "0000"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +69,56 @@ public class NewReportActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txtReportTitle = (EditText) findViewById(R.id.reportTitleInput);
+
+
+
         txtReportWhere = (EditText) findViewById(R.id.reportWhereInput);
         txtDescription = (EditText) findViewById(R.id.editText2);
         sevSpinner = (Spinner) findViewById(R.id.reportSpinner);
+        timePicker = (TimePicker) findViewById(R.id.timeSpinner);
+        datePicker = (DatePicker) findViewById(R.id.dateSpinner);
+
+
+        //hide year cuz its dumb
+        try {
+            Field f[] = datePicker.getClass().getDeclaredFields();
+            for (Field field : f) {
+                if (field.getName().equals("mYearPicker") || field.getName().equals("mYearSpinner")) {
+                    field.setAccessible(true);
+                    Object yearPicker = new Object();
+                    yearPicker = field.get(datePicker);
+                    ((View) yearPicker).setVisibility(View.GONE);
+                }
+            }
+        }catch (SecurityException e) {
+            Log.d("ERROR", e.getMessage());
+        }catch (IllegalArgumentException e) {
+            Log.d("ERROR", e.getMessage());
+        }catch (IllegalAccessException e) {
+            Log.d("ERROR", e.getMessage());
+        }
+
+
+
+
+        txtReportWhere.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        txtDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
@@ -58,45 +132,73 @@ public class NewReportActivity extends Activity {
 
                 btnSubmit.setEnabled(false);
 
-                String reportTitle = txtReportTitle.getText().toString();
+
                 String reportWhere = txtReportWhere.getText().toString();
-
                 String reportDesc = txtDescription.getText().toString();
-
                 String reportSev = sevSpinner.getSelectedItem().toString();
-                int severity = Integer.parseInt(reportSev) - 1;
-                // Check if username, password is filled
-                if(reportTitle.trim().length() > 0 && reportWhere.trim().length() > 0  && reportDesc.trim().length() > 0){
+
+                //spinner subject -> subject code
+
+                int index = Arrays.asList(pickerData).indexOf(reportSev);
+                String subjectCode = subjectCodes[index];
+
+                //format date & time  yyyy-MM-dd hh:mm:ss
+                int   day   = datePicker.getDayOfMonth();
+                int   month = datePicker.getMonth();
+                int   year  = datePicker.getYear();
+                int   hrs   = timePicker.getCurrentHour();
+                int   min   = timePicker.getCurrentMinute();
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day, hrs, min, 0);
 
 
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String formatedDate = sdf.format(calendar.getTime());
+//                Log.v("WMWMWMWMWMW", formatedDate);
 
-                    JSONObject reportObject = new JSONObject();
-                    try {
-                        reportObject.put("title", reportTitle);
+                //get lat and lon
 
-                        reportObject.put("severity", severity);
-                        reportObject.put("location", reportWhere);
-                        reportObject.put("description", reportDesc);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    String reportUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports?token=";
+
+                // Check if location and description is filled
+                if(reportWhere.trim().length() > 0  && reportDesc.trim().length() > 0){
 
                     ///lets give this a try
                     SessionManagement session;
                     session = new SessionManagement(getApplicationContext());
-
                     HashMap<String, String> token = session.getUserToken();
-
                     String tkn = token.get("apiToken");
+
+
+                    JSONObject reportObject = new JSONObject();
+                    JSONObject emptyJSON = new JSONObject();
+
+                    try {
+                        reportObject.put("address_line1", reportWhere);
+                        reportObject.put("description", reportDesc);
+                        reportObject.put("time_began", formatedDate);
+                        reportObject.put("time_ended", formatedDate);
+                        reportObject.put("subjectcode", subjectCode);
+                        reportObject.put("token", tkn);
+                        reportObject.put("lat_reported_from", "-83.0117700");////
+                        reportObject.put("lon_reported_from", "40.0089060");////
+
+                        reportObject.put("offenses", emptyJSON);
+                        reportObject.put("perpetrators", emptyJSON);
+                        reportObject.put("property", emptyJSON);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String reportUrl = "http://crimenut.maxwellbuck.com/reports/new";
+
+
 
                     if(tkn.equals("")){
                         Toast.makeText(getApplicationContext(),
                                 "Are you even logged in, bro?",
                                 Toast.LENGTH_LONG).show();
-                    }else {
-
-                        reportUrl = reportUrl.concat(tkn);
+                    }else{
 
                         JsonObjectRequest postObjRequest = new JsonObjectRequest(
                                 Request.Method.POST,
@@ -106,12 +208,12 @@ public class NewReportActivity extends Activity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         // handle response
-                                        if (response.has("result")) {
+                                        if (response.has("id")) {
                                             try {
                                                 String result = response.getString("result");
                                                 if (result.equals("true")) {
                                                     Toast.makeText(getApplicationContext(),
-                                                            "Your report has been posted! Thanks for being a vigilante",
+                                                            "Your report has been posted! Thanks for being a Crime Nut",
                                                             Toast.LENGTH_LONG).show();
                                                     Intent i = new Intent(getApplicationContext(), FeedActivity.class);
                                                     startActivity(i);
@@ -125,9 +227,16 @@ public class NewReportActivity extends Activity {
                                                 e.printStackTrace();
                                             }
                                         } else {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Failed to post your report... please try again",
-                                                    Toast.LENGTH_LONG).show();
+                                            try{
+                                                String result = response.getString("ERROR");
+                                                Toast.makeText(getApplicationContext(),
+                                                        "Failed to post your report... " + result,
+                                                        Toast.LENGTH_LONG).show();
+                                            }catch (JSONException e){
+                                                Toast.makeText(getApplicationContext(),
+                                                        "Failed to post your report...",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                     }
                                 }, new Response.ErrorListener() {
@@ -181,4 +290,11 @@ public class NewReportActivity extends Activity {
         Intent intent = new Intent(this, NewReportStartActivity.class);
         startActivity(intent);
     }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
 }

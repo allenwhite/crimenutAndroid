@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Created by neil on 11/30/14.
+ * Created by alpal on 11/30/14.
  */
 public class ReplyArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
     private final Context context;
@@ -43,12 +43,13 @@ public class ReplyArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.activity_view_incident_row, parent, false);
         final TextView reportReply = (TextView) rowView.findViewById(R.id.report_reply);
         try{
-            reportReply.setText(values.get(position).get("body"));
+            reportReply.setText(values.get(position).get("content"));
         }catch (Exception e){
             reportReply.setText("No comments yet for this incident");
         }

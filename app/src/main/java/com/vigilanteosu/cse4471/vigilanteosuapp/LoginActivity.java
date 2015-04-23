@@ -79,73 +79,68 @@ public class LoginActivity extends Activity {
                 String username = txtUsername.getText().toString();
                 String password = txtPassword.getText().toString();
                 // Check if username, password is filled
-                if(username.trim().length() > 0 && password.trim().length() > 0){
-                    // check if the user exists and the password is correct
-                    String url ="http://jeffcasavant.com:10100/vig/api/v1.0/users/";
-                    url = url.concat(username + "/" + password);
-
-                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                            (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                if (username.trim().length() > 0 && password.trim().length() > 0) {
+                    JSONObject userObject = new JSONObject();
+                    try {
+                        userObject.put("username", username);
+                        userObject.put("password", password);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String loginUrl = "http://crimenut.maxwellbuck.com/users/login";
+                    JsonObjectRequest signupObjRequest = new JsonObjectRequest(
+                            Request.Method.POST,
+                            loginUrl,
+                            userObject,
+                            new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    //handle response
-                                    Editor prefEdit =
+                                    // handle response
+                                    SharedPreferences.Editor prefEdit =
                                             getSharedPreferences(SessionManagement.PREF_NAME,
                                                     MODE_PRIVATE).edit();
-                                    if (response.has("token")) {
-                                        try {
-
+                                    Log.d("LoginActivity: response", response.toString());
+                                    JSONObject responseUser = null;
+                                    try {
+                                        //responseUser = response.getJSONObject("user");
+                                        if(response.has("token")){
                                             prefEdit.putString(SessionManagement.API_TOKEN,
                                                     response.getString("token"));
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                            prefEdit.putBoolean(SessionManagement.IS_LOGIN, true);
+                                        }else{
+                                            prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
                                         }
-
-                                        prefEdit.putBoolean(SessionManagement.IS_LOGIN, true);
-
-
-                                    } else {
-                                        prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                    prefEdit.commit();
-                                    //////
-                                    Context context = getApplicationContext();
-                                    GcmRegister register = new GcmRegister();
-                                    register.sendRegistrationIdToBackend(context);
-
+                                    prefEdit.apply();
                                     SharedPreferences pref =
-                                            getSharedPreferences(SessionManagement.PREF_NAME,
-                                                    MODE_PRIVATE);
+                                            getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE);
                                     if (pref.getBoolean(SessionManagement.IS_LOGIN, false)) {
                                         // Staring MainActivity
-                                        Intent i = new Intent(getApplicationContext(),
-                                                FeedActivity.class);
+
+                                        Intent i = new Intent(getApplicationContext(), FeedActivity.class);
                                         startActivity(i);
                                         finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(),
-                                                "Login Failed...\nUsername/Password Incorrect",
+                                                "Login Failed...\n",
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    // TODO Auto-generated method stub
+                        }
+                    }
+                    );
 
-                                }
-                            });
+                    requestQueueSingleton.getInstance(currentContext).addToRequestQueue(signupObjRequest);
 
-                    requestQueueSingleton.getInstance(currentContext).addToRequestQueue(jsObjRequest);
-
-                }else{
-                    // user didn't entered username or password
-                    // Show alert asking him to enter the details
-                    //alert.showAlertDialog(LoginActivity.this, "Login failed..", "Please enter username and password", false);
+                } else {
                     Toast.makeText(getApplicationContext(),
-                            "Login failed...\nPlease enter username and password",
+                            "Signup failed...\nPlease enter username and password",
                             Toast.LENGTH_LONG).show();
                 }
 

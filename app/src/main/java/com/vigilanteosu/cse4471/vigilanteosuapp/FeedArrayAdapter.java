@@ -2,6 +2,7 @@ package com.vigilanteosu.cse4471.vigilanteosuapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-/**
- * Created by neil on 11/30/14.
+/*
+ * Created by alpal on 11/30/14.
  */
 public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
     private final Context context;
@@ -50,40 +51,28 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
         final TextView reportTime = (TextView) rowView.findViewById(R.id.report_time);
         final TextView reportTitle = (TextView) rowView.findViewById(R.id.report_title);
         final TextView reportLocation = (TextView) rowView.findViewById(R.id.report_location);
-        ImageView severityIcon = (ImageView) rowView.findViewById(R.id.severity_icon);
-//        textView.setText(values[position]);
+        final TextView reportDesc = (TextView) rowView.findViewById(R.id.report_desc);
+
+        String subject = values.get(position).get("title");
+        if(subject.contains("Burglary")){
+            subject = "Burglary";
+        }else{
+            int pos = subject.lastIndexOf('-');
+            if(pos > 0){
+                subject = subject.substring(0, pos);
+            }
+        }
+
         reportTime.setText(values.get(position).get("time"));
         reportLocation.setText(values.get(position).get("location"));
-        reportTitle.setText(values.get(position).get("title"));
-        final String desc = values.get(position).get("description");
-        final String reportid = values.get(position).get("reportid");
+        reportTitle.setText(subject);
+        reportDesc.setText(values.get(position).get("description"));
 
+        final String reportid = values.get(position).get("reportid");
 
         final String lon = values.get(position).get("lon");
         final String lat = values.get(position).get("lat");
 
-        final int severity = Integer.parseInt(values.get(position).get("severity"));
-        // Change the icon for Windows and iPhone
-        switch(severity){
-            case 0:
-                severityIcon.setImageResource(R.drawable.zeroseverity);
-                break;
-            case 1:
-                severityIcon.setImageResource(R.drawable.oneseverity);
-                break;
-            case 2:
-                severityIcon.setImageResource(R.drawable.twoseverity);
-                break;
-            case 3:
-                severityIcon.setImageResource(R.drawable.threeseverity);
-                break;
-            case 4:
-                severityIcon.setImageResource(R.drawable.fourseverity);
-                break;
-            default:
-                severityIcon.setImageResource(R.drawable.zeroseverity);
-                break;
-        }
 
         final Context currentContext = this.context;
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +82,7 @@ public class FeedArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
                 intent.putExtra("reportTime", reportTime.getText().toString());
                 intent.putExtra("reportTitle", reportTitle.getText().toString());
                 intent.putExtra("reportLocation", reportLocation.getText().toString());
-                intent.putExtra("severity", severity);
-                intent.putExtra("reportDesc", desc);
+                intent.putExtra("reportDesc", reportDesc.getText().toString());
                 intent.putExtra("reportid", reportid);
 
                 if(!lon.equals("None") && !lat.equals("None")) {

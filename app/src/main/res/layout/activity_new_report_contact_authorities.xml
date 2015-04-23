@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/vigGray"
+        android:background="@color/black"
         android:padding="@dimen/norm_screen_padding"
         >
 
@@ -34,7 +34,7 @@
             android:layout_centerHorizontal="true">
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/callCBUS"
                 android:id="@+id/button"
@@ -46,7 +46,7 @@
                 android:textAllCaps="true"/>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/callOSU"
                 android:id="@+id/button2"
@@ -58,26 +58,8 @@
                 android:background="@color/ltRed"
                 android:textAllCaps="true"/>
 
-            <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/textCBUS"-->
-                <!--android:id="@+id/button3"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_marginBottom="5dp"-->
-                <!--/>-->
-
-            <!--<Button-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/textOSU"-->
-                <!--android:id="@+id/button4"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_marginBottom="5dp"-->
-                <!--/>-->
-
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/contacted"
                 android:id="@+id/button5"

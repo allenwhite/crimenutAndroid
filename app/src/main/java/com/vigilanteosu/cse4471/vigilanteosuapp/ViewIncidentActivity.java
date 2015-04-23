@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,15 +59,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         // Check if username, password is filled
         if(reply.trim().length() > 0){
             JSONObject replyObject = new JSONObject();
-            try {
-                replyObject.put("body", reply);
-                replyObject.put("reportid", reportid);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            String replyUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/reports/reply?token=";
-
-            ///lets give this a try
+            ///get token
             SessionManagement session;
             session = new SessionManagement(getApplicationContext());
 
@@ -78,50 +71,56 @@ public class ViewIncidentActivity extends FragmentActivity {
                 Toast.makeText(getApplicationContext(),
                         "Are you even logged in, bro?",
                         Toast.LENGTH_LONG).show();
-            }else {
-
-                replyUrl = replyUrl.concat(tkn);
-
-                JsonObjectRequest postObjRequest = new JsonObjectRequest(
-                        Request.Method.POST,
-                        replyUrl,
-                        replyObject,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // handle response
-                                if (response.has("result")) {
-                                    try {
-                                        String result = response.getString("result");
-                                        if (result.equals("true")) {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Your comment has been posted! Thanks for being a vigilante",
-                                                    Toast.LENGTH_LONG).show();
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Something went amiss posting your comment... please try again",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Failed to post your comment... please try again",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-                requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
             }
+            try {
+                replyObject.put("content", reply);
+                replyObject.put("report_id", reportid);
+                replyObject.put("token", tkn);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String replyUrl = "http://crimenut.maxwellbuck.com/reports/comments/new";
+
+            JsonObjectRequest postObjRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    replyUrl,
+                    replyObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // handle response
+                            if (response.has("result")) {
+                                try {
+                                    String result = response.getString("result");
+                                    if (result.equals("true")) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Your comment has been posted! Thanks for being a Crimenut",
+                                                Toast.LENGTH_LONG).show();
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Something went amiss posting your comment... please try again",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Failed to post your comment... please try again",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+            requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
+
         }else{
             // user didn't entered username or password
             // Show alert asking him to enter the details
@@ -180,16 +179,9 @@ public class ViewIncidentActivity extends FragmentActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(jsobj.has("body")){
+        if(jsobj.has("content")){
             try {
-                report.put("body", jsobj.getString("body"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(jsobj.has("time")){
-            try {
-                report.put("time", jsobj.getString("time"));
+                report.put("content", jsobj.getString("content"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -211,20 +203,28 @@ public class ViewIncidentActivity extends FragmentActivity {
         if(tkn.equals("")){
             //TODO error
         }
-        String url = "http://jeffcasavant.com:10100/vig/api/v1.0/list/replies?token="+ tkn + "&reportid=" + reportid;
+        String url = "http://crimenut.maxwellbuck.com/reports/report";
 
         final Context currentContext = this;
         final Activity currentActivity = this;
 
+        JSONObject reportObject = new JSONObject();
+        try {
+            reportObject.put("token", tkn);
+            reportObject.put("reportid", reportid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                (Request.Method.POST, url, reportObject, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         //handle response
-                        if(response.has("replies")){
+                        if(response.has("comments")){
                             JSONArray rps = null;
                             try {
-                                rps = response.getJSONArray("replies");
+                                rps = response.getJSONArray("comments");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -269,7 +269,7 @@ public class ViewIncidentActivity extends FragmentActivity {
         }
         View listItem = listAdapter.getView(listAdapter.getCount()-1, null, listView);
         listItem.measure(0, 0);
-        totalHeight += listItem.getMeasuredHeight();
+
         totalHeight += listItem.getMeasuredHeight();
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
@@ -279,6 +279,85 @@ public class ViewIncidentActivity extends FragmentActivity {
     }
 
 
+
+    public void reportAsSpam(final Intent intent){
+
+        Button btnSpam = (Button)findViewById(R.id.btnSpam);
+        btnSpam.setEnabled(false);
+
+        final Context currentContext = this;
+
+
+
+        JSONObject replyObject = new JSONObject();
+        ///get token
+        SessionManagement session;
+        session = new SessionManagement(getApplicationContext());
+
+        HashMap<String, String> token = session.getUserToken();
+
+        String tkn = token.get("apiToken");
+
+        if(tkn.equals("")){
+            Toast.makeText(getApplicationContext(),
+                    "Are you even logged in, bro?",
+                    Toast.LENGTH_LONG).show();
+        }
+        try {
+            replyObject.put("reportid", reportid);
+            replyObject.put("token", tkn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String replyUrl = "http://crimenut.maxwellbuck.com/reports/spam/new";
+
+        JsonObjectRequest postObjRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                replyUrl,
+                replyObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // handle response
+                        if (response.has("result")) {
+                            try {
+                                String result = response.getString("result");
+                                if (result.equals("true")) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Thanks! \nThis post now has a lower priority than others",
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Something went amiss processing this spam request :(",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            try {
+                                String result = response.getString("ERROR");
+
+                                Toast.makeText(getApplicationContext(),
+                                        "Uh oh... \n" + result,
+                                        Toast.LENGTH_LONG).show();
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Something went wrong, please try again in five minutes",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueueSingleton.getInstance(currentContext).addToRequestQueue(postObjRequest);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -310,34 +389,14 @@ public class ViewIncidentActivity extends FragmentActivity {
         TextView time = (TextView)findViewById(R.id.report_time);
         TextView desc = (TextView)findViewById(R.id.report_desc);
 
-        int severity = getIntent().getExtras().getInt("severity");
+
         title.setText(getIntent().getExtras().getString("reportTitle"));
         loc.setText(getIntent().getExtras().getString("reportLocation"));
         time.setText(getIntent().getExtras().getString("reportTime"));
         desc.setText(getIntent().getExtras().getString("reportDesc"));
 
-        ImageView severityIcon = (ImageView)findViewById(R.id.severity_icon);
 
-        switch(severity){
-            case 0:
-                severityIcon.setImageResource(R.drawable.zeroseverity);
-                break;
-            case 1:
-                severityIcon.setImageResource(R.drawable.oneseverity);
-                break;
-            case 2:
-                severityIcon.setImageResource(R.drawable.twoseverity);
-                break;
-            case 3:
-                severityIcon.setImageResource(R.drawable.threeseverity);
-                break;
-            case 4:
-                severityIcon.setImageResource(R.drawable.fourseverity);
-                break;
-            default:
-                severityIcon.setImageResource(R.drawable.zeroseverity);
-                break;
-        }
+
 
         //load replies? remember to call this method ya doof
         getReplies(reportid);
@@ -347,6 +406,15 @@ public class ViewIncidentActivity extends FragmentActivity {
             @Override
             public void onClick(View arg0) {
                 postReply(getIntent());
+
+            }
+        });
+
+        Button btnSpam = (Button)findViewById(R.id.btnSpam);
+        btnSpam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                reportAsSpam(getIntent());
 
             }
         });

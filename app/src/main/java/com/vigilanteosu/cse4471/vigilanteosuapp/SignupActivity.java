@@ -72,7 +72,7 @@ public class SignupActivity extends Activity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String signupUrl = "http://jeffcasavant.com:10100/vig/api/v1.0/users";
+                    String signupUrl = "http://crimenut.maxwellbuck.com/users/new";
                     JsonObjectRequest signupObjRequest = new JsonObjectRequest(
                                     Request.Method.POST,
                                     signupUrl,
@@ -87,30 +87,23 @@ public class SignupActivity extends Activity {
                             Log.d("SignupActivity: response", response.toString());
                             JSONObject responseUser = null;
                             try {
-                                responseUser = response.getJSONObject("user");
+                                //responseUser = response.getJSONObject("user");
+                                if(response.has("token")){
+                                    prefEdit.putString(SessionManagement.API_TOKEN,
+                                            response.getString("token"));
+                                    prefEdit.putBoolean(SessionManagement.IS_LOGIN, true);
+                                }else{
+                                    prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }
-                            if (responseUser.has("id")) {
-                                try {
-                                    prefEdit.putString(SessionManagement.API_TOKEN,
-                                            responseUser.getString("id"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                prefEdit.putBoolean(SessionManagement.IS_LOGIN, true);
-                            } else {
-                                prefEdit.putBoolean(SessionManagement.IS_LOGIN, false);
                             }
                             prefEdit.apply();
                             SharedPreferences pref =
                                     getSharedPreferences(SessionManagement.PREF_NAME, MODE_PRIVATE);
                             if (pref.getBoolean(SessionManagement.IS_LOGIN, false)) {
                                 // Staring MainActivity
-                                Toast.makeText(getApplicationContext(),
-                                        "Thanks for becoming a Vigilante! Please sign in",
-                                        Toast.LENGTH_LONG).show();
-                                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                Intent i = new Intent(getApplicationContext(), FeedActivity.class);
                                 startActivity(i);
                                 finish();
                             } else {
